@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { CreateClientDto } from './dto/create-client.dto';
 import { UpdateClientDto } from './dto/update-client.dto';
 import { Client } from './entities/client.entity';
@@ -77,15 +77,42 @@ export class ClientService {
     };
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} client`;
+  async findOne(id: number) {
+    const client = await this.clientRepository.findOne({
+      where: { id },
+    });
+
+    if (!client) {
+      throw new NotFoundException('Client not found');
+    }
+
+    return client;
   }
 
-  update(id: number, updateClientDto: UpdateClientDto) {
-    return `This action updates a #${id} client`;
+  async update(id: number, updateClientDto: UpdateClientDto) {
+    const updatedClient = await this.clientRepository.update(
+      id,
+      updateClientDto,
+    );
+    if (!updatedClient.affected) {
+      throw new NotFoundException('Client not found');
+    }
+
+    const client = await this.clientRepository.findOne({
+      where: { id },
+    });
+
+    return { message: 'Client updated successfully', client };
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} client`;
+  async remove(id: number) {
+    const client = await this.clientRepository.findOne({ where: { id } });
+
+    if (!client) {
+      throw new NotFoundException('Client not found');
+    }
+
+    const clientDeleted = await this.clientRepository.remove(client);
+    return { message: 'Client deleted successfully', client: clientDeleted };
   }
 }

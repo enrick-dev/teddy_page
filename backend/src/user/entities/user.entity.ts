@@ -1,7 +1,9 @@
+import { Client } from 'src/client/entities/client.entity';
 import {
   Column,
   CreateDateColumn,
   Entity,
+  OneToMany,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
@@ -25,6 +27,9 @@ export class User {
 
   @UpdateDateColumn()
   updatedAt: Date;
+
+  @OneToMany(() => Client, (client) => client.user)
+  clients: Client[];
 
   constructor(partial: Partial<User>) {
     Object.assign(this, partial);

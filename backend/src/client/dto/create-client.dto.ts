@@ -12,4 +12,8 @@ export class CreateClientDto {
   @IsNumber()
   @IsNotEmpty()
   salary: number;
+
+  @IsNumber()
+  @IsNotEmpty()
+  userID: number;
 }
