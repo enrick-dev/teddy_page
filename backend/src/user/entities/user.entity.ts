@@ -21,6 +21,7 @@ export class User {
   @ApiProperty({
     description: 'Nome',
     example: 'John Doe',
+    maxLength: 120,
   })
   @Column({ length: 120 })
   name: string;

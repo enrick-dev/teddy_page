@@ -9,9 +9,10 @@ import { Repository } from 'typeorm';
 import { User } from './entities/user.entity';
 import * as bcrypt from 'bcryptjs';
 import { InjectRepository } from '@nestjs/typeorm';
-import { CreateUserResponsePayload } from './payload/create-user-response.payload';
+
 import { SuccessMessages } from 'src/response-messages/success-messages';
 import { ErrorMessages } from 'src/response-messages/error-messages';
+import { CreateUserResponsePayload } from './payload/create-user-response.payload';
 
 @Injectable()
 export class UserService {
