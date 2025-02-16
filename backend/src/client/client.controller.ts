@@ -15,6 +15,7 @@ import { UpdateClientDto } from './dto/update-client.dto';
 import { ErrorMessages } from 'src/response-messages/error-messages';
 import {
   ApiBadRequestResponse,
+  ApiBearerAuth,
   ApiBody,
   ApiCreatedResponse,
   ApiNotFoundResponse,
@@ -29,6 +30,7 @@ import { UpdatedClientResponsePayload } from './payload/updated-client-response.
 import { FindOneClientResponsePayload } from './payload/find-one-client-response.payload';
 import { DeletedClientResponsePayload } from './payload/deleted-client-response.payload';
 
+@ApiBearerAuth()
 @Controller('client')
 export class ClientController {
   constructor(private readonly clientService: ClientService) {}
@@ -58,35 +60,35 @@ export class ClientController {
     required: true,
   })
   @ApiQuery({
-    name: 'minSalary',
-    description: 'Valor minimo de salário',
-    type: Number,
-    required: false,
-  })
-  @ApiQuery({
-    name: 'maxSalary',
-    description: 'Valor maximo de salário',
-    type: Number,
-    required: false,
-  })
-  @ApiQuery({
-    name: 'minCompanyValue',
-    description: 'Minimo valor da empresa',
-    type: Number,
-    required: false,
-  })
-  @ApiQuery({
-    name: 'maxCompanyValue',
-    description: 'Maximo valor da empresa',
-    type: Number,
-    required: false,
-  })
-  @ApiQuery({
     name: 'limit',
     description: 'Limite de clientes por página',
     type: Number,
     required: true,
   })
+  // @ApiQuery({
+  //   name: 'minSalary',
+  //   description: 'Valor minimo de salário',
+  //   type: Number,
+  //   required: false,
+  // })
+  // @ApiQuery({
+  //   name: 'maxSalary',
+  //   description: 'Valor maximo de salário',
+  //   type: Number,
+  //   required: false,
+  // })
+  // @ApiQuery({
+  //   name: 'minCompanyValue',
+  //   description: 'Minimo valor da empresa',
+  //   type: Number,
+  //   required: false,
+  // })
+  // @ApiQuery({
+  //   name: 'maxCompanyValue',
+  //   description: 'Maximo valor da empresa',
+  //   type: Number,
+  //   required: false,
+  // })
   @ApiCreatedResponse({
     type: FindManyClientResponsePayload,
   })
@@ -94,10 +96,10 @@ export class ClientController {
     description: ErrorMessages.PAGE_AND_LIMIT_REQUIRED,
   })
   findAll(
-    @Query('minSalary') minSalary: string,
-    @Query('maxSalary') maxSalary: string,
-    @Query('minCompanyValue') minCompanyValue: string,
-    @Query('maxCompanyValue') maxCompanyValue: string,
+    // @Query('minSalary') minSalary: string,
+    // @Query('maxSalary') maxSalary: string,
+    // @Query('minCompanyValue') minCompanyValue: string,
+    // @Query('maxCompanyValue') maxCompanyValue: string,
     @Query('page') page: string,
     @Query('limit') limit: string,
   ): Promise<FindManyClientResponsePayload> {
@@ -106,10 +108,10 @@ export class ClientController {
     }
 
     return this.clientService.findAll(
-      +minSalary,
-      +maxSalary,
-      +minCompanyValue,
-      +maxCompanyValue,
+      // +minSalary,
+      // +maxSalary,
+      // +minCompanyValue,
+      // +maxCompanyValue,
       +page,
       +limit,
     );

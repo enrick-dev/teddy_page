@@ -37,29 +37,29 @@ export class ClientService {
   }
 
   async findAll(
-    minSalary: number,
-    maxSalary: number,
-    minCompanyValue: number,
-    maxCompanyValue: number,
+    // minSalary: number,
+    // maxSalary: number,
+    // minCompanyValue: number,
+    // maxCompanyValue: number,
     page: number = 1,
     limit: number = 10,
   ) {
     const skip = (page - 1) * limit;
 
-    const salaryCondition = this.buildRangeCondition(
-      minSalary,
-      maxSalary,
-      'salary',
-    );
-    const companyValueCondition = this.buildRangeCondition(
-      minCompanyValue,
-      maxCompanyValue,
-      'companyValue',
-    );
+    // const salaryCondition = this.buildRangeCondition(
+    //   minSalary,
+    //   maxSalary,
+    //   'salary',
+    // );
+    // const companyValueCondition = this.buildRangeCondition(
+    //   minCompanyValue,
+    //   maxCompanyValue,
+    //   'companyValue',
+    // );
 
     const where: FindOptionsWhere<Client> = {
-      ...salaryCondition,
-      ...companyValueCondition,
+      // ...salaryCondition,
+      // ...companyValueCondition,
     };
 
     const clients = await this.clientRepository.find({

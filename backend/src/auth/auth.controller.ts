@@ -3,6 +3,7 @@ import { AuthService } from './auth.service';
 import { LoginAuthDto } from './dto/login-auth.dto';
 import { IsPublic } from './decorators/is-public.decorator';
 import {
+  ApiBearerAuth,
   ApiCreatedResponse,
   ApiNotFoundResponse,
   ApiOperation,
@@ -32,6 +33,7 @@ export class AuthController {
   }
 
   @Get(':token')
+  @ApiBearerAuth()
   @ApiOperation({
     summary: 'Obter dados do usuário por token',
   })

@@ -14,6 +14,7 @@ import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import {
   ApiBadRequestResponse,
+  ApiBearerAuth,
   ApiBody,
   ApiConflictResponse,
   ApiCreatedResponse,
@@ -31,6 +32,7 @@ import { DeletedUserResponsePayload } from './payload/deleted-user-response.payl
 import { UpdatedUserResponsePayload } from './payload/updated-user-response.payload';
 import { CreateUserResponsePayload } from './payload/create-user-response.payload';
 
+@ApiBearerAuth()
 @Controller('user')
 export class UserController {
   constructor(private readonly userService: UserService) {}

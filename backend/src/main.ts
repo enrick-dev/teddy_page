@@ -16,6 +16,7 @@ async function bootstrap() {
     .setTitle('Teddy Open Finance API')
     .setDescription('API para teste na Teddy Open Finance')
     .setVersion('1.0.0')
+    .addBearerAuth({ type: 'http', scheme: 'bearer' })
     .addTag('Auth')
     .addTag('User')
     .addTag('Client')
