@@ -17,16 +17,22 @@ export class UserService {
     private userRepository: Repository<User>,
   ) {}
 
-  async create(createUserDto: CreateUserDto) {
+  async create({ password, ...restCreateUserDto }: CreateUserDto) {
     const existingUser = await this.userRepository.findOne({
-      where: { username: createUserDto.username },
+      where: { username: restCreateUserDto.username },
     });
 
     if (existingUser) {
       throw new ConflictException('Username already exists');
     }
 
-    const userInstance = this.userRepository.create(createUserDto);
+    const salt = await bcrypt.genSalt(10);
+    const hashPassword = await bcrypt.hashSync(password, salt);
+
+    const userInstance = this.userRepository.create({
+      password: hashPassword,
+      ...restCreateUserDto,
+    });
     const { password: _, ...user } =
       await this.userRepository.save(userInstance);
 
