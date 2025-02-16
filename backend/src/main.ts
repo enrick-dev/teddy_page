@@ -13,9 +13,9 @@ async function bootstrap() {
   );
 
   const config = new DocumentBuilder()
-    .setTitle('Cats example')
-    .setDescription('The cats API description')
-    .setVersion('1.0')
+    .setTitle('Teddy Open Finance API')
+    .setDescription('API para teste na Teddy Open Finance')
+    .setVersion('1.0.0')
     .addTag('Auth')
     .addTag('User')
     .addTag('Client')

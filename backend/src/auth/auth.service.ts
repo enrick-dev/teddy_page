@@ -13,6 +13,7 @@ import { ConfigService } from '@nestjs/config';
 import { UserJwtAuthPayload } from './payload/user-jwt-auth.payload';
 import { UserService } from 'src/user/user.service';
 import { ErrorMessages } from 'src/response-messages/error-messages';
+import { LoginAuthResponsePayload } from './payload/login-auth-response.payload';
 
 @Injectable()
 export class AuthService {
@@ -22,7 +23,7 @@ export class AuthService {
     private jwtService: JwtService,
     private userService: UserService,
   ) {}
-  async login(loginAuthDto: LoginAuthDto) {
+  async login(loginAuthDto: LoginAuthDto): Promise<LoginAuthResponsePayload> {
     const user = await this.userRepository.findOne({
       where: { username: loginAuthDto.username },
     });
@@ -36,7 +37,7 @@ export class AuthService {
     );
 
     if (!isPasswordValid) {
-      throw new NotFoundException(ErrorMessages.INVALID_PASSWORD);
+      throw new UnauthorizedException(ErrorMessages.INVALID_PASSWORD);
     }
 
     return {

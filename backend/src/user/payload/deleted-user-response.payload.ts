@@ -4,16 +4,16 @@ import { SuccessMessages } from 'src/response-messages/success-messages';
 
 class UserWithoutPassword extends OmitType(User, ['password'] as const) {}
 
-export class CreateUserResponsePayload {
+export class DeletedUserResponsePayload {
   @ApiProperty({
     description: 'Mensagem de sucesso',
     type: String,
-    default: SuccessMessages.USER_CREATED,
+    default: SuccessMessages.USER_DELETED,
     required: true,
   })
   message: string;
   @ApiProperty({
-    description: 'Usuário criado',
+    description: 'Usuário deletado',
     type: UserWithoutPassword,
     required: true,
   })
