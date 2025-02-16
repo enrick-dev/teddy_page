@@ -4,6 +4,8 @@ import { UpdateClientDto } from './dto/update-client.dto';
 import { Client } from './entities/client.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Between, FindOptionsWhere, Repository } from 'typeorm';
+import { SuccessMessages } from 'src/response-messages/success-messages';
+import { ErrorMessages } from 'src/response-messages/error-messages';
 
 @Injectable()
 export class ClientService {
@@ -31,7 +33,7 @@ export class ClientService {
     const clientInstance = this.clientRepository.create(createClientDto);
     const client = await this.clientRepository.save(clientInstance);
 
-    return { message: 'Client created successfully', client };
+    return { message: SuccessMessages.CLIENT_CREATED, client };
   }
 
   async findAll(
@@ -83,7 +85,7 @@ export class ClientService {
     });
 
     if (!client) {
-      throw new NotFoundException('Client not found');
+      throw new NotFoundException(ErrorMessages.CLIENT_NOT_FOUND);
     }
 
     return client;
@@ -95,24 +97,24 @@ export class ClientService {
       updateClientDto,
     );
     if (!updatedClient.affected) {
-      throw new NotFoundException('Client not found');
+      throw new NotFoundException(ErrorMessages.CLIENT_NOT_FOUND);
     }
 
     const client = await this.clientRepository.findOne({
       where: { id },
     });
 
-    return { message: 'Client updated successfully', client };
+    return { message: SuccessMessages.CLIENT_UPDATED, client };
   }
 
   async remove(id: number) {
     const client = await this.clientRepository.findOne({ where: { id } });
 
     if (!client) {
-      throw new NotFoundException('Client not found');
+      throw new NotFoundException(ErrorMessages.CLIENT_NOT_FOUND);
     }
 
     const clientDeleted = await this.clientRepository.remove(client);
-    return { message: 'Client deleted successfully', client: clientDeleted };
+    return { message: SuccessMessages.CLIENT_DELETED, client: clientDeleted };
   }
 }

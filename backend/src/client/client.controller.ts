@@ -12,6 +12,7 @@ import {
 import { ClientService } from './client.service';
 import { CreateClientDto } from './dto/create-client.dto';
 import { UpdateClientDto } from './dto/update-client.dto';
+import { ErrorMessages } from 'src/response-messages/error-messages';
 
 @Controller('client')
 export class ClientController {
@@ -32,9 +33,7 @@ export class ClientController {
     @Query('limit') limit: string,
   ) {
     if (!page || !limit) {
-      throw new BadRequestException(
-        'Page and limit query parameters are required',
-      );
+      throw new BadRequestException(ErrorMessages.PAGE_AND_LIMIT_REQUIRED);
     }
 
     return this.clientService.findAll(

@@ -12,6 +12,7 @@ import { JwtService } from '@nestjs/jwt';
 import { ConfigService } from '@nestjs/config';
 import { UserJwtAuthPayload } from './payload/user-jwt-auth.payload';
 import { UserService } from 'src/user/user.service';
+import { ErrorMessages } from 'src/response-messages/error-messages';
 
 @Injectable()
 export class AuthService {
@@ -26,7 +27,7 @@ export class AuthService {
       where: { username: loginAuthDto.username },
     });
     if (!user) {
-      throw new NotFoundException('No user found for username');
+      throw new NotFoundException(ErrorMessages.USERNAME_NOT_FOUND);
     }
 
     const isPasswordValid = await bcrypt.compare(
@@ -35,7 +36,7 @@ export class AuthService {
     );
 
     if (!isPasswordValid) {
-      throw new NotFoundException('Password is incorrect');
+      throw new NotFoundException(ErrorMessages.INVALID_PASSWORD);
     }
 
     return {
@@ -48,7 +49,7 @@ export class AuthService {
     const isValidToken = this.jwtService.verify(token, JWT_SECRET_TOKEN);
 
     if (!isValidToken) {
-      throw new UnauthorizedException('Invalid token');
+      throw new UnauthorizedException(ErrorMessages.INVALID_TOKEN);
     }
 
     const decoded: UserJwtAuthPayload = await this.jwtService.decode(
@@ -59,7 +60,7 @@ export class AuthService {
     const user = await this.userService.findOne(decoded.id);
 
     if (!user) {
-      throw new NotFoundException('User not found');
+      throw new NotFoundException(ErrorMessages.USER_NOT_FOUND);
     }
 
     return user;

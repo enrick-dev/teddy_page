@@ -6,6 +6,7 @@ import {
 import { Reflector } from '@nestjs/core';
 import { AuthGuard } from '@nestjs/passport';
 import { ExtractJwt } from 'passport-jwt';
+import { ErrorMessages } from 'src/response-messages/error-messages';
 
 @Injectable()
 export class JwtAuthGuard extends AuthGuard('jwt') {
@@ -27,7 +28,7 @@ export class JwtAuthGuard extends AuthGuard('jwt') {
     const token = ExtractJwt.fromAuthHeaderAsBearerToken()(request);
 
     if (!token) {
-      throw new UnauthorizedException('Token not found');
+      throw new UnauthorizedException(ErrorMessages.TOKEN_NOT_FOUND);
     }
 
     const canActivate = super.canActivate(context);

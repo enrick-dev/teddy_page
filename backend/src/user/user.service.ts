@@ -9,6 +9,9 @@ import { Repository } from 'typeorm';
 import { User } from './entities/user.entity';
 import * as bcrypt from 'bcryptjs';
 import { InjectRepository } from '@nestjs/typeorm';
+import { CreateUserResponsePayload } from './payload/create-user-response.payload';
+import { SuccessMessages } from 'src/response-messages/success-messages';
+import { ErrorMessages } from 'src/response-messages/error-messages';
 
 @Injectable()
 export class UserService {
@@ -17,13 +20,16 @@ export class UserService {
     private userRepository: Repository<User>,
   ) {}
 
-  async create({ password, ...restCreateUserDto }: CreateUserDto) {
+  async create({
+    password,
+    ...restCreateUserDto
+  }: CreateUserDto): Promise<CreateUserResponsePayload> {
     const existingUser = await this.userRepository.findOne({
       where: { username: restCreateUserDto.username },
     });
 
     if (existingUser) {
-      throw new ConflictException('Username already exists');
+      throw new ConflictException(ErrorMessages.USER_ALREADY_EXISTS);
     }
 
     const salt = await bcrypt.genSalt(10);
@@ -36,7 +42,7 @@ export class UserService {
     const { password: _, ...user } =
       await this.userRepository.save(userInstance);
 
-    return { message: 'User created successfully', user };
+    return { message: SuccessMessages.USER_CREATED, user };
   }
 
   async findAll(page: number = 1, limit: number = 10) {
@@ -65,7 +71,7 @@ export class UserService {
     });
 
     if (!user) {
-      throw new NotFoundException('User not found');
+      throw new NotFoundException(ErrorMessages.USER_NOT_FOUND);
     }
 
     return user;
@@ -85,25 +91,25 @@ export class UserService {
       password: newPassword,
     });
     if (!updatedUser.affected) {
-      throw new NotFoundException('User not found');
+      throw new NotFoundException(ErrorMessages.USER_NOT_FOUND);
     }
 
     const { password: _, ...user } = await this.userRepository.findOne({
       where: { id },
     });
 
-    return { message: 'User updated successfully', user };
+    return { message: SuccessMessages.USER_UPDATED, user };
   }
 
   async remove(id: number) {
     const user = await this.userRepository.findOne({ where: { id } });
 
     if (!user) {
-      throw new NotFoundException('User not found');
+      throw new NotFoundException(ErrorMessages.USER_NOT_FOUND);
     }
 
     const { password: _, ...userDeleted } =
       await this.userRepository.remove(user);
-    return { message: 'User deleted successfully', user: userDeleted };
+    return { message: SuccessMessages.USER_DELETED, user: userDeleted };
   }
 }

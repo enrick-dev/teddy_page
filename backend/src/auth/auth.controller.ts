@@ -13,7 +13,7 @@ export class AuthController {
     return this.authService.login(loginAuthDto);
   }
 
-  @Get('user/:token')
+  @Get(':token')
   getUserByToken(@Param('token') token: string) {
     return this.authService.getUserByToken(token);
   }
