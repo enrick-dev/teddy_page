@@ -59,7 +59,16 @@ export class UserService {
   }
 
   async findOne(id: number) {
-    return await this.userRepository.findOne({ where: { id } });
+    const user = await this.userRepository.findOne({
+      select: ['id', 'name', 'username'],
+      where: { id },
+    });
+
+    if (!user) {
+      throw new NotFoundException('User not found');
+    }
+
+    return user;
   }
 
   async update(id: number, { password, ...restUpdateUserDto }: UpdateUserDto) {
