@@ -7,18 +7,18 @@ import {
 } from 'typeorm';
 
 @Entity()
-export class User {
+export class Client {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @Column({ length: 120 })
+  @Column({ length: 60 })
   name: string;
 
-  @Column({ length: 30, unique: true })
-  username: string;
+  @Column()
+  companyValue: number;
 
   @Column()
-  password: string;
+  salary: number;
 
   @CreateDateColumn()
   createdAt: Date;
@@ -26,7 +26,7 @@ export class User {
   @UpdateDateColumn()
   updatedAt: Date;
 
-  constructor(partial: Partial<User>) {
+  constructor(partial: Partial<Client>) {
     Object.assign(this, partial);
   }
 }
