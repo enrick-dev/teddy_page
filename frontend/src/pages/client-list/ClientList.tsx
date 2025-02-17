@@ -41,21 +41,23 @@ interface PropsBody {
 
 const Body: React.FC<PropsBody> = ({ clients }) => {
   return (
-    <div className="flex max-h-[600px] flex-1 flex-wrap items-start justify-center gap-5 overflow-y-scroll">
-      {clients.map((client) => (
-        <CardClient.Root key={client.id}>
-          <CardClient.Content
-            name={client.name}
-            salary={client.salary}
-            companyValue={client.companyValue}
-          />
-          <CardClient.Footer
-            id={client.id}
-            selected={client.selected || false}
-            variants={["select", "edit", "remove"]}
-          />
-        </CardClient.Root>
-      ))}
+    <div className="flex max-h-[600px] flex-1 overflow-y-scroll">
+      <div className="flex h-fit w-full flex-wrap items-start justify-center gap-5">
+        {clients.map((client) => (
+          <CardClient.Root key={client.id}>
+            <CardClient.Content
+              name={client.name}
+              salary={client.salary}
+              companyValue={client.companyValue}
+            />
+            <CardClient.Footer
+              id={client.id}
+              selected={client.selected || false}
+              variants={["select", "edit", "remove"]}
+            />
+          </CardClient.Root>
+        ))}
+      </div>
     </div>
   );
 };
