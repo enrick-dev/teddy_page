@@ -39,22 +39,29 @@ export const AuthProvider: React.FC = () => {
   const [token, setToken] = React.useState(
     localStorageManager.getItem("@Auth:token"),
   );
-  const userID = localStorageManager.getItem("@Auth:id");
-  const name = localStorageManager.getItem("@Auth:name");
-  const username = localStorageManager.getItem("@Auth:username");
+  const [userData, setUserData] = React.useState({
+    userID: localStorageManager.getItem("@Auth:id") || "",
+    name: localStorageManager.getItem("@Auth:name") || "",
+    username: localStorageManager.getItem("@Auth:username") || "",
+  });
 
   const { mutate, isPending, isSuccess, data, error, isError } = useFetchAuth();
   const navigate = useNavigate();
 
   const queryClient = useQueryClient();
 
-  const user = useFetchUserByToken(!userID ? token : null);
+  const user = useFetchUserByToken(!userData.userID ? token : null);
 
   useEffect(() => {
     if (user.data) {
       localStorageManager.setItem("@Auth:id", user.data?.id);
       localStorageManager.setItem("@Auth:name", user.data?.name);
       localStorageManager.setItem("@Auth:username", user.data?.username);
+      setUserData({
+        userID: user.data?.id,
+        name: user.data?.name,
+        username: user.data?.username,
+      });
     }
   }, [user.isSuccess]);
 
@@ -90,9 +97,9 @@ export const AuthProvider: React.FC = () => {
         isPending,
         error,
         isError,
-        userID,
-        name,
-        username,
+        userID: userData.userID,
+        name: userData.name,
+        username: userData.username,
       }}
     >
       <Outlet />
