@@ -65,7 +65,10 @@ const CardClientFooter: React.FC<PropsCardClientFooter> = ({
             <Plus className="size-[25px]" />
           </button>
         )) || (
-          <button className="cursor-pointer" onClick={() => selecting(false)}>
+          <button
+            className="text-primary cursor-pointer"
+            onClick={() => selecting(false)}
+          >
             <Minus className="size-[25px]" />
           </button>
         ))}

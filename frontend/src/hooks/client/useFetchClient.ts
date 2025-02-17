@@ -4,6 +4,7 @@ import { AxiosError } from "axios";
 import { api } from "../../services/api";
 
 interface BodyRequest {
+  selected?: boolean;
   page: number;
   limit: number;
 }
