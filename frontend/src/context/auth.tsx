@@ -20,7 +20,7 @@ export const AuthContext = React.createContext<{
   signOut: () => Promise<void>;
   error: unknown;
   isError: boolean;
-  userID: string;
+  userID: number;
   name: string;
   username: string;
 }>({
@@ -30,7 +30,7 @@ export const AuthContext = React.createContext<{
   signOut: async () => {},
   error: null,
   isError: false,
-  userID: "",
+  userID: 0,
   name: "",
   username: "",
 });

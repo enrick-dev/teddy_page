@@ -1,7 +1,9 @@
 import React from "react";
 import { Button } from "../../ components/button";
 import CardClient from "../../ components/card-client";
-import Pagination from "../../ components/Pagination";
+import Pagination from "../../ components/pagination";
+import { useAuth } from "../../context/auth";
+import { useClearSelectedClient } from "../../hooks/client/useClearSelectedClient";
 import { Client, useFetchClient } from "../../hooks/client/useFetchClient";
 
 interface PropsNav {
@@ -62,9 +64,19 @@ interface PropsFooter {
 }
 
 const Footer: React.FC<PropsFooter> = ({ page, totalPages, onPageChange }) => {
+  const { userID } = useAuth();
+  const { mutate, isPending } = useClearSelectedClient();
+
+  const clearSelectedClients = () => {
+    mutate({ userID });
+  };
   return (
     <div className="flex-initial pt-4 pb-5">
-      <Button className="border-primary hover:bg-primary text-primary hover:text-secondary w-full border bg-transparent text-[14px] font-bold">
+      <Button
+        className="border-primary hover:bg-primary text-primary hover:text-secondary w-full border bg-transparent text-[14px] font-bold"
+        onClick={clearSelectedClients}
+        isLoading={isPending}
+      >
         Limpar clientes selecionados
       </Button>
       <div className="mt-4 flex w-full justify-center">
@@ -81,7 +93,14 @@ const Footer: React.FC<PropsFooter> = ({ page, totalPages, onPageChange }) => {
 const ClientSelected = () => {
   const [page, setPage] = React.useState<number>(1);
   const [limit, setLimit] = React.useState<number>(16);
-  const { data, refetch } = useFetchClient({ selected: true, page, limit });
+  const { userID } = useAuth();
+
+  const { data, refetch } = useFetchClient({
+    selected: true,
+    page,
+    limit,
+    userID,
+  });
 
   React.useEffect(() => {
     refetch();

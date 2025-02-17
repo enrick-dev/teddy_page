@@ -7,6 +7,7 @@ interface BodyRequest {
   selected?: boolean;
   page: number;
   limit: number;
+  userID: number;
 }
 
 export interface Client {
@@ -42,7 +43,7 @@ const clients = async (data: BodyRequest): Promise<FetchClientResponse> => {
 
 export function useFetchClient(data: BodyRequest) {
   const query = useQuery({
-    enabled: !!data.page && !!data.limit,
+    enabled: !!data.page && !!data.limit && !!data.userID,
     queryFn: () => clients(data),
     queryKey: ["fetchClient"],
   });

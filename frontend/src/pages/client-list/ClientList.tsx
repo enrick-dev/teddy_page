@@ -1,7 +1,8 @@
 import React from "react";
 import { Button } from "../../ components/button";
 import CardClient from "../../ components/card-client";
-import Pagination from "../../ components/Pagination";
+import Pagination from "../../ components/pagination";
+import { useAuth } from "../../context/auth";
 import { Client, useFetchClient } from "../../hooks/client/useFetchClient";
 
 interface PropsNav {
@@ -84,7 +85,8 @@ const Footer: React.FC<PropsFooter> = ({ page, totalPages, onPageChange }) => {
 const ClientList = () => {
   const [page, setPage] = React.useState<number>(1);
   const [limit, setLimit] = React.useState<number>(16);
-  const { data, refetch } = useFetchClient({ page, limit });
+  const { userID } = useAuth();
+  const { data, refetch } = useFetchClient({ page, limit, userID });
 
   React.useEffect(() => {
     refetch();
