@@ -1,4 +1,14 @@
 services:
+  # app:
+  #   build:
+  #     context: .
+  #     dockerfile: ${DOCKERFILE}
+  #   ports:
+  #     - '3000:3000'
+  #   volumes:
+  #     - .:/home/node/app
+  #     - /home/node/app/node_modules
+
   db:
     image: postgres
     env_file:

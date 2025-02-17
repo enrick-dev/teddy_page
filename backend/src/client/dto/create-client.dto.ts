@@ -1,5 +1,11 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsNotEmpty, IsNumber, MaxLength } from 'class-validator';
+import {
+  IsBoolean,
+  IsNotEmpty,
+  IsNumber,
+  IsOptional,
+  MaxLength,
+} from 'class-validator';
 
 export class CreateClientDto {
   @ApiProperty({
@@ -42,4 +48,14 @@ export class CreateClientDto {
   @IsNumber()
   @IsNotEmpty()
   userID: number;
+
+  @ApiProperty({
+    description: 'Selecionado',
+    type: Boolean,
+    default: false,
+    required: false,
+  })
+  @IsBoolean()
+  @IsOptional()
+  selected?: boolean;
 }

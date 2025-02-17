@@ -45,6 +45,15 @@ export class Client {
   salary: number;
 
   @ApiProperty({
+    description: 'Selecionado',
+    type: Boolean,
+    default: false,
+    required: false,
+  })
+  @Column({ default: false })
+  selected?: boolean;
+
+  @ApiProperty({
     description: 'Data de criação',
     example: '2021-07-01T00:00:00.000Z',
   })
