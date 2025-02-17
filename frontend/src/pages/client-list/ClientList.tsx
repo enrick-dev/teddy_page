@@ -49,6 +49,7 @@ const Body: React.FC<PropsBody> = ({ clients }) => {
           />
           <CardClient.Footer
             id={client.id}
+            selected={client.selected || false}
             variants={["select", "edit", "remove"]}
           />
         </CardClient.Root>

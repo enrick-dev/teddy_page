@@ -1,15 +1,15 @@
-import { useMutation } from '@tanstack/react-query';
-import { api } from '../../services/api';
-import { AxiosError } from 'axios';
+import { useMutation } from "@tanstack/react-query";
+import { AxiosError } from "axios";
+import { api } from "../../services/api";
 
-export interface FetchAuthInterface {
+export interface PropsFetchAuth {
   username: string;
   password: string;
 }
 
-const auth = async (data: FetchAuthInterface) => {
+const auth = async (data: PropsFetchAuth) => {
   try {
-    const response = await api.post('/auth', data);
+    const response = await api.post("/auth", data);
     return response.data;
   } catch (error) {
     if (error instanceof AxiosError) {

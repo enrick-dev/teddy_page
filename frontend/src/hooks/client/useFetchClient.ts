@@ -16,6 +16,7 @@ export interface Client {
   createdAt: Date;
   updatedAt: Date;
   userID: number;
+  selected?: boolean;
 }
 
 export interface FetchClientResponse {

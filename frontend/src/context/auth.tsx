@@ -1,7 +1,7 @@
 import { useQueryClient } from "@tanstack/react-query";
 import React, { useEffect } from "react";
 import { Outlet, useNavigate } from "react-router-dom";
-import { FetchAuthInterface, useFetchAuth } from "../hooks/auth/useFetchAuth";
+import { PropsFetchAuth, useFetchAuth } from "../hooks/auth/useFetchAuth";
 import { useFetchUserByToken } from "../hooks/auth/useFetchUserByToken";
 import localStorageManager from "../utils/localStorageManager";
 
@@ -16,7 +16,7 @@ export const useAuth = () => {
 export const AuthContext = React.createContext<{
   signed: boolean;
   isPending: boolean;
-  sign: (data: FetchAuthInterface) => void;
+  sign: (data: PropsFetchAuth) => void;
   signOut: () => Promise<void>;
   error: unknown;
   isError: boolean;
@@ -26,7 +26,7 @@ export const AuthContext = React.createContext<{
 }>({
   signed: false,
   isPending: false,
-  sign: (_: FetchAuthInterface) => {},
+  sign: (_: PropsFetchAuth) => {},
   signOut: async () => {},
   error: null,
   isError: false,
@@ -77,7 +77,7 @@ export const AuthProvider: React.FC = () => {
     }
   }, [isSuccess]);
 
-  const sign = (data: FetchAuthInterface) => {
+  const sign = (data: PropsFetchAuth) => {
     mutate(data);
   };
 

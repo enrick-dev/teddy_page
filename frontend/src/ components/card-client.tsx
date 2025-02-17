@@ -1,5 +1,6 @@
-import { Pencil, Plus, Trash2 } from "lucide-react";
+import { Minus, Pencil, Plus, Trash2 } from "lucide-react";
 import React, { PropsWithChildren } from "react";
+import { useUpdateClient } from "../hooks/client/useUpdateClient";
 import { cn } from "../utils/cn";
 
 const CardClientRoot: React.FC<PropsWithChildren> = ({ children }) => {
@@ -30,11 +31,11 @@ const CardClientContent: React.FC<PropsCardClientContent> = ({
     </div>
   );
 };
-type CardClientFooterVariants = "select" | "edit" | "remove";
 
 interface PropsCardClientFooter {
   id: number;
-  variants: CardClientFooterVariants[];
+  selected: boolean;
+  variants: ("select" | "edit" | "remove")[];
 }
 
 const CardClientFooter: React.FC<PropsCardClientFooter> = ({
@@ -42,6 +43,15 @@ const CardClientFooter: React.FC<PropsCardClientFooter> = ({
   selected,
   variants,
 }) => {
+  const { mutate } = useUpdateClient();
+
+  const selecting = (selected: boolean) => {
+    mutate({
+      id,
+      selected,
+    });
+  };
+
   return (
     <div
       className={cn(
@@ -49,11 +59,16 @@ const CardClientFooter: React.FC<PropsCardClientFooter> = ({
         variants.length > 1 ? "justify-between" : "justify-end",
       )}
     >
-      {variants.includes("select") && (
-        <button className="cursor-pointer">
-          <Plus className="size-[25px]" />
-        </button>
-      )}
+      {variants.includes("select") &&
+        ((!selected && (
+          <button className="cursor-pointer" onClick={() => selecting(true)}>
+            <Plus className="size-[25px]" />
+          </button>
+        )) || (
+          <button className="cursor-pointer" onClick={() => selecting(false)}>
+            <Minus className="size-[25px]" />
+          </button>
+        ))}
       {variants.includes("edit") && (
         <button className="cursor-pointer">
           <Pencil className="size-[20px]" />
