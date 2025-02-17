@@ -11,4 +11,6 @@ export const ErrorMessages = {
   TOKEN_NOT_FOUND: 'Token não encontrado',
   USERNAME_NOT_FOUND: 'Nome de usuário não encontrado',
   INVALID_PASSWORD: 'Senha inválida',
+  USERNAME_CANNOT_BE_EMPTY: 'O nome de usuário não pode estar vazio',
+  PASSWORD_CANNOT_BE_EMPTY: 'A senha não pode estar vazio',
 };
