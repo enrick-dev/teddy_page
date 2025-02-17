@@ -116,15 +116,14 @@ export class ClientService {
   }
 
   async clearSelected({ userID }: ClearClientDto) {
-    const clients = await this.clientRepository.find({
-      where: { userID },
-    });
-
-    clients.forEach(async (client) => {
-      await this.clientRepository.update(client.id, {
+    await this.clientRepository.update(
+      {
+        userID,
+      },
+      {
         selected: false,
-      });
-    });
+      },
+    );
 
     return { message: SuccessMessages.REMOVE_SELECTION_ALL_CLIENTS };
   }
