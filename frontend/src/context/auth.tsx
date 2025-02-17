@@ -20,6 +20,7 @@ export const AuthContext = React.createContext<{
   signOut: () => Promise<void>;
   error: unknown;
   isError: boolean;
+  token: string;
   userID: number;
   name: string;
   username: string;
@@ -30,6 +31,7 @@ export const AuthContext = React.createContext<{
   signOut: async () => {},
   error: null,
   isError: false,
+  token: "",
   userID: 0,
   name: "",
   username: "",
@@ -66,8 +68,7 @@ export const AuthProvider: React.FC = () => {
   }, [user.isSuccess]);
 
   useEffect(() => {
-    if (token) navigate("/");
-    else navigate("/entrar");
+    if (!token) navigate("/entrar");
   }, [token]);
 
   useEffect(() => {
@@ -97,6 +98,7 @@ export const AuthProvider: React.FC = () => {
         isPending,
         error,
         isError,
+        token,
         userID: userData.userID,
         name: userData.name,
         username: userData.username,

@@ -62,10 +62,16 @@ const Body: React.FC<PropsBody> = ({ clients }) => {
 interface PropsFooter {
   page: number;
   totalPages: number;
+  totalClients: number;
   onPageChange: (page: number) => void;
 }
 
-const Footer: React.FC<PropsFooter> = ({ page, totalPages, onPageChange }) => {
+const Footer: React.FC<PropsFooter> = ({
+  totalClients,
+  page,
+  totalPages,
+  onPageChange,
+}) => {
   const { userID } = useAuth();
   const { mutate, isPending } = useClearSelectedClient();
 
@@ -77,6 +83,7 @@ const Footer: React.FC<PropsFooter> = ({ page, totalPages, onPageChange }) => {
       <Button
         className="border-primary hover:bg-primary text-primary hover:text-secondary w-full border bg-transparent text-[14px] font-bold"
         onClick={clearSelectedClients}
+        disabled={!totalClients}
         isLoading={isPending}
       >
         Limpar clientes selecionados
@@ -114,6 +121,7 @@ const ClientSelected = () => {
       <Body clients={data?.clients || []} />
 
       <Footer
+        totalClients={data?.totalClients || 0}
         page={page}
         totalPages={data?.totalPages || 0}
         onPageChange={setPage}

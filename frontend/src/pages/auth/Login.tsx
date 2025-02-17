@@ -1,10 +1,11 @@
 import React from "react";
+import { useNavigate } from "react-router-dom";
 import { Button } from "../../ components/button";
 import { Input } from "../../ components/input";
 import { useAuth } from "../../context/auth";
 
 const Login = () => {
-  const { sign, isError, error, isPending } = useAuth();
+  const { sign, isError, error, isPending, token } = useAuth();
 
   const inputUsername = React.useRef<HTMLInputElement>(null);
   const inputPassword = React.useRef<HTMLInputElement>(null);
@@ -22,6 +23,11 @@ const Login = () => {
     (!!(typeof errormsg?.message == "object" && errormsg?.message.length) &&
       errormsg?.message[0]) ||
     errormsg?.message;
+
+  const navigate = useNavigate();
+  React.useEffect(() => {
+    if (token) navigate("/");
+  }, [token]);
 
   return (
     <div className="bg-muted flex h-dvh w-dvw flex-col items-center justify-center">
