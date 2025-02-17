@@ -80,9 +80,9 @@ const CardClientFooter: React.FC<PropsCardClientFooter> = ({
         </DialogClient>
       )}
       {variants.includes("remove") && (
-        <button className="cursor-pointer">
+        <DialogClient client={client} variant="remove">
           <Trash2 className="size-[20px] text-red-500" />
-        </button>
+        </DialogClient>
       )}
     </div>
   );

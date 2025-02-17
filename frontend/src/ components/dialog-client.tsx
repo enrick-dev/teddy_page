@@ -3,6 +3,7 @@ import { X } from "lucide-react";
 import React, { PropsWithChildren, useRef } from "react";
 import { useAuth } from "../context/auth";
 import { Client } from "../hooks/client/useFetchClient";
+import { useRemoveClient } from "../hooks/client/useRemoveClient";
 import { useUpdateClient } from "../hooks/client/useUpdateClient";
 import { Button } from "./button";
 import { Input } from "./input";
@@ -35,7 +36,7 @@ const ComponentEdit: React.FC<PropsComponent> = ({
   };
 
   return (
-    <div>
+    <div className="min-w-[400px]">
       <div className="flex flex-col gap-2.5">
         <Input
           ref={inputName}
@@ -64,6 +65,33 @@ const ComponentEdit: React.FC<PropsComponent> = ({
   );
 };
 
+const ComponentRemove: React.FC<PropsComponent> = ({
+  client,
+  onSuccessChange,
+}) => {
+  const { mutate, isPending } = useRemoveClient();
+
+  const removeClient = () => {
+    mutate(client.id, { onSuccess: onSuccessChange });
+  };
+
+  return (
+    <div>
+      <p className="text-[16px]">
+        Você está prestes a excluir o cliente:{" "}
+        <span className="font-bold">{client.name}</span>
+      </p>
+      <Button
+        className="mt-3.5 w-full py-3 text-[14px] font-bold"
+        onClick={removeClient}
+        isLoading={isPending}
+      >
+        Excluir cliente
+      </Button>
+    </div>
+  );
+};
+
 interface PropsDialogClient extends PropsWithChildren {
   client: Client;
   variant: "add" | "edit" | "remove";
@@ -72,7 +100,7 @@ interface PropsDialogClient extends PropsWithChildren {
 const Forms = {
   add: { text: "Criar cliente:", component: ComponentEdit },
   edit: { text: "Editar cliente:", component: ComponentEdit },
-  remove: { text: "Remover cliente:", component: ComponentEdit },
+  remove: { text: "Remover cliente:", component: ComponentRemove },
 };
 
 const DialogClient: React.FC<PropsDialogClient> = ({
@@ -93,7 +121,7 @@ const DialogClient: React.FC<PropsDialogClient> = ({
 
       <Dialog.Portal>
         <Dialog.Overlay className="data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 fixed inset-0 z-50 bg-black/80" />
-        <Dialog.Content className="bg-background data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 data-[state=closed]:slide-out-to-left-1/2 data-[state=closed]:slide-out-to-top-[48%] data-[state=open]:slide-in-from-left-1/2 data-[state=open]:slide-in-from-top-[48%] fixed top-[50%] left-[50%] z-50 grid w-full max-w-[400px] translate-x-[-50%] translate-y-[-50%] gap-4 border p-6 shadow-lg duration-200 sm:rounded-sm">
+        <Dialog.Content className="bg-background data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 data-[state=closed]:slide-out-to-left-1/2 data-[state=closed]:slide-out-to-top-[48%] data-[state=open]:slide-in-from-left-1/2 data-[state=open]:slide-in-from-top-[48%] fixed top-[50%] left-[50%] z-50 grid w-fit translate-x-[-50%] translate-y-[-50%] gap-4 border p-6 shadow-lg duration-200 sm:rounded-sm">
           <div className="flex flex-col gap-2">
             <h4 className="text-[16px] font-bold">{FormTitle}</h4>
             <FormComponent
