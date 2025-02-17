@@ -1,7 +1,9 @@
 import { Minus, Pencil, Plus, Trash2 } from "lucide-react";
 import React, { PropsWithChildren } from "react";
+import { Client } from "../hooks/client/useFetchClient";
 import { useUpdateClient } from "../hooks/client/useUpdateClient";
 import { cn } from "../utils/cn";
+import DialogClient from "./dialog-client";
 
 const CardClientRoot: React.FC<PropsWithChildren> = ({ children }) => {
   return (
@@ -33,13 +35,13 @@ const CardClientContent: React.FC<PropsCardClientContent> = ({
 };
 
 interface PropsCardClientFooter {
-  id: number;
+  client: Client;
   selected: boolean;
   variants: ("select" | "edit" | "remove")[];
 }
 
 const CardClientFooter: React.FC<PropsCardClientFooter> = ({
-  id,
+  client,
   selected,
   variants,
 }) => {
@@ -47,7 +49,7 @@ const CardClientFooter: React.FC<PropsCardClientFooter> = ({
 
   const selecting = (selected: boolean) => {
     mutate({
-      id,
+      id: client.id,
       selected,
     });
   };
@@ -73,9 +75,9 @@ const CardClientFooter: React.FC<PropsCardClientFooter> = ({
           </button>
         ))}
       {variants.includes("edit") && (
-        <button className="cursor-pointer">
+        <DialogClient client={client} variant="edit">
           <Pencil className="size-[20px]" />
-        </button>
+        </DialogClient>
       )}
       {variants.includes("remove") && (
         <button className="cursor-pointer">
