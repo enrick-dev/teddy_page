@@ -54,6 +54,12 @@ export class ClientController {
     summary: 'Listar clientes',
   })
   @ApiQuery({
+    name: 'selected',
+    description: 'Selecionado',
+    type: Boolean,
+    required: false,
+  })
+  @ApiQuery({
     name: 'page',
     description: 'Página',
     type: Number,
@@ -100,6 +106,7 @@ export class ClientController {
     // @Query('maxSalary') maxSalary: string,
     // @Query('minCompanyValue') minCompanyValue: string,
     // @Query('maxCompanyValue') maxCompanyValue: string,
+    @Query('selected') selected: boolean,
     @Query('page') page: string,
     @Query('limit') limit: string,
   ): Promise<FindManyClientResponsePayload> {
@@ -112,6 +119,7 @@ export class ClientController {
       // +maxSalary,
       // +minCompanyValue,
       // +maxCompanyValue,
+      selected,
       +page,
       +limit,
     );

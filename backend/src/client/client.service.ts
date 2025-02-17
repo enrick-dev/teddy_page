@@ -41,6 +41,7 @@ export class ClientService {
     // maxSalary: number,
     // minCompanyValue: number,
     // maxCompanyValue: number,
+    selected,
     page: number = 1,
     limit: number = 10,
   ) {
@@ -60,10 +61,14 @@ export class ClientService {
     const where: FindOptionsWhere<Client> = {
       // ...salaryCondition,
       // ...companyValueCondition,
+      ...(typeof selected == 'boolean' && { selected }),
     };
 
     const clients = await this.clientRepository.find({
       where,
+      order: {
+        createdAt: 'DESC',
+      },
       skip,
       take: limit,
     });
