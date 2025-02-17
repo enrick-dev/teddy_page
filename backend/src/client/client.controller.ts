@@ -29,6 +29,8 @@ import { FindManyClientResponsePayload } from './payload/find-many-client-respon
 import { UpdatedClientResponsePayload } from './payload/updated-client-response.payload';
 import { FindOneClientResponsePayload } from './payload/find-one-client-response.payload';
 import { DeletedClientResponsePayload } from './payload/deleted-client-response.payload';
+import { ClearClientDto } from './dto/clear-client.dto';
+import { ClearSelectedClientResponsePayload } from './payload/clear-selected-client-response.payload';
 
 @ApiBearerAuth()
 @Controller('client')
@@ -57,6 +59,12 @@ export class ClientController {
     name: 'selected',
     description: 'Selecionado',
     type: Boolean,
+    required: false,
+  })
+  @ApiQuery({
+    name: 'userID',
+    description: 'ID do usuário dono do cliente',
+    type: Number,
     required: false,
   })
   @ApiQuery({
@@ -106,6 +114,7 @@ export class ClientController {
     // @Query('maxSalary') maxSalary: string,
     // @Query('minCompanyValue') minCompanyValue: string,
     // @Query('maxCompanyValue') maxCompanyValue: string,
+    @Query('userID') userID: number,
     @Query('selected') selected: boolean,
     @Query('page') page: string,
     @Query('limit') limit: string,
@@ -119,6 +128,7 @@ export class ClientController {
       // +maxSalary,
       // +minCompanyValue,
       // +maxCompanyValue,
+      userID,
       selected,
       +page,
       +limit,
@@ -165,6 +175,17 @@ export class ClientController {
     @Body() updateClientDto: UpdateClientDto,
   ): Promise<UpdatedClientResponsePayload> {
     return this.clientService.update(+id, updateClientDto);
+  }
+
+  @Post('clear/selected')
+  @ApiOperation({
+    summary: 'Limpa a seleção de todos os clientes',
+  })
+  @ApiCreatedResponse({
+    type: ClearSelectedClientResponsePayload,
+  })
+  clearSelected(@Body() clearClientDto: ClearClientDto) {
+    return this.clientService.clearSelected(clearClientDto);
   }
 
   @Delete(':id')

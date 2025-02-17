@@ -6,6 +6,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Between, FindOptionsWhere, Repository } from 'typeorm';
 import { SuccessMessages } from 'src/response-messages/success-messages';
 import { ErrorMessages } from 'src/response-messages/error-messages';
+import { ClearClientDto } from './dto/clear-client.dto';
 
 @Injectable()
 export class ClientService {
@@ -41,6 +42,7 @@ export class ClientService {
     // maxSalary: number,
     // minCompanyValue: number,
     // maxCompanyValue: number,
+    userID,
     selected,
     page: number = 1,
     limit: number = 10,
@@ -62,6 +64,7 @@ export class ClientService {
       // ...salaryCondition,
       // ...companyValueCondition,
       ...(typeof selected == 'boolean' && { selected }),
+      ...(!!userID && { userID }),
     };
 
     const clients = await this.clientRepository.find({
@@ -110,6 +113,20 @@ export class ClientService {
     });
 
     return { message: SuccessMessages.CLIENT_UPDATED, client };
+  }
+
+  async clearSelected({ userID }: ClearClientDto) {
+    const clients = await this.clientRepository.find({
+      where: { userID },
+    });
+
+    clients.forEach(async (client) => {
+      await this.clientRepository.update(client.id, {
+        selected: false,
+      });
+    });
+
+    return { message: SuccessMessages.REMOVE_SELECTION_ALL_CLIENTS };
   }
 
   async remove(id: number) {

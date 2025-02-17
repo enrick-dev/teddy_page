@@ -5,4 +5,5 @@ export const SuccessMessages = {
   CLIENT_CREATED: 'Cliente criado com sucesso',
   CLIENT_UPDATED: 'Cliente atualizado com sucesso',
   CLIENT_DELETED: 'Cliente deletado com sucesso',
+  REMOVE_SELECTION_ALL_CLIENTS: 'Removido a seleção de todos os clientes',
 };
