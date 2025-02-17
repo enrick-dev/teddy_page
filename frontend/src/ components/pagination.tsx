@@ -1,4 +1,5 @@
 import React from "react";
+import { cn } from "../utils/cn";
 
 interface PropsFooter {
   currentPage: number;
@@ -47,7 +48,7 @@ const Pagination: React.FC<PropsFooter> = ({
     ];
   })();
   return (
-    <div className="flex gap-1">
+    <div className={cn("flex gap-1", pages.length == 1 && "opacity-0")}>
       {pages.map((page, index) => (
         <button
           key={index}

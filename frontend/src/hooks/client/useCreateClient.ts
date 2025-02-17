@@ -6,11 +6,12 @@ export interface PropsUseCreateClient {
   name: string;
   companyValue: number;
   salary: number;
+  userID: number;
 }
 
 const createClient = async (data: PropsUseCreateClient) => {
   try {
-    const response = await api.post("/client/", data);
+    const response = await api.post("/client", data);
     return response.data;
   } catch (error) {
     if (error instanceof AxiosError) {

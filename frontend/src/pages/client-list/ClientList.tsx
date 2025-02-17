@@ -1,6 +1,7 @@
 import React from "react";
 import { Button } from "../../ components/button";
 import CardClient from "../../ components/card-client";
+import DialogClient from "../../ components/dialog-client";
 import Pagination from "../../ components/pagination";
 import { useAuth } from "../../context/auth";
 import { Client, useFetchClient } from "../../hooks/client/useFetchClient";
@@ -70,9 +71,12 @@ interface PropsFooter {
 const Footer: React.FC<PropsFooter> = ({ page, totalPages, onPageChange }) => {
   return (
     <div className="flex-initial pt-4 pb-5">
-      <Button className="border-primary hover:bg-primary text-primary hover:text-secondary w-full border bg-transparent text-[14px] font-bold">
-        Criar cliente
-      </Button>
+      <DialogClient variant="add">
+        <Button className="border-primary hover:bg-primary text-primary hover:text-secondary w-full border bg-transparent text-[14px] font-bold">
+          Criar cliente
+        </Button>
+      </DialogClient>
+
       <div className="mt-4 flex w-full justify-center">
         <Pagination
           currentPage={page}

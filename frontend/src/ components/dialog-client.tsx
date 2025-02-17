@@ -2,6 +2,7 @@ import * as Dialog from "@radix-ui/react-dialog";
 import { X } from "lucide-react";
 import React, { PropsWithChildren, useRef } from "react";
 import { useAuth } from "../context/auth";
+import { useCreateClient } from "../hooks/client/useCreateClient";
 import { Client } from "../hooks/client/useFetchClient";
 import { useRemoveClient } from "../hooks/client/useRemoveClient";
 import { useUpdateClient } from "../hooks/client/useUpdateClient";
@@ -9,10 +10,50 @@ import { Button } from "./button";
 import { Input } from "./input";
 
 interface PropsComponent {
-  client: Client;
+  client?: Client;
   userID: number;
   onSuccessChange: VoidFunction;
 }
+
+const ComponentAdd: React.FC<PropsComponent> = ({ onSuccessChange }) => {
+  const { mutate, isPending } = useCreateClient();
+  const { userID } = useAuth();
+  const inputName = useRef<HTMLInputElement | null>(null);
+  const inputSalary = useRef<HTMLInputElement | null>(null);
+  const inputCompanyValue = useRef<HTMLInputElement | null>(null);
+
+  const editClient = () => {
+    mutate(
+      {
+        name: inputName.current?.value ?? "",
+        salary: Number(inputSalary.current?.value ?? 0),
+        companyValue: Number(inputCompanyValue.current?.value ?? 0),
+        userID,
+      },
+      { onSuccess: onSuccessChange },
+    );
+  };
+
+  return (
+    <div className="min-w-[400px]">
+      <div className="flex flex-col gap-2.5">
+        <Input ref={inputName} placeholder="Digite o nome:" />
+        <Input ref={inputSalary} placeholder="Digite o salário:" />
+        <Input
+          ref={inputCompanyValue}
+          placeholder="Digite o valor da empresa:"
+        />
+      </div>
+      <Button
+        className="mt-3.5 w-full py-3 text-[14px] font-bold"
+        onClick={editClient}
+        isLoading={isPending}
+      >
+        Criar cliente
+      </Button>
+    </div>
+  );
+};
 
 const ComponentEdit: React.FC<PropsComponent> = ({
   client,
@@ -22,6 +63,10 @@ const ComponentEdit: React.FC<PropsComponent> = ({
   const inputName = useRef<HTMLInputElement | null>(null);
   const inputSalary = useRef<HTMLInputElement | null>(null);
   const inputCompanyValue = useRef<HTMLInputElement | null>(null);
+
+  if (!client) {
+    return <p>Erro: Cliente não encontrado.</p>;
+  }
 
   const editClient = () => {
     mutate(
@@ -71,6 +116,10 @@ const ComponentRemove: React.FC<PropsComponent> = ({
 }) => {
   const { mutate, isPending } = useRemoveClient();
 
+  if (!client) {
+    return <p>Erro: Cliente não encontrado.</p>;
+  }
+
   const removeClient = () => {
     mutate(client.id, { onSuccess: onSuccessChange });
   };
@@ -93,12 +142,12 @@ const ComponentRemove: React.FC<PropsComponent> = ({
 };
 
 interface PropsDialogClient extends PropsWithChildren {
-  client: Client;
+  client?: Client;
   variant: "add" | "edit" | "remove";
 }
 
 const Forms = {
-  add: { text: "Criar cliente:", component: ComponentEdit },
+  add: { text: "Criar cliente:", component: ComponentAdd },
   edit: { text: "Editar cliente:", component: ComponentEdit },
   remove: { text: "Remover cliente:", component: ComponentRemove },
 };
@@ -125,7 +174,7 @@ const DialogClient: React.FC<PropsDialogClient> = ({
           <div className="flex flex-col gap-2">
             <h4 className="text-[16px] font-bold">{FormTitle}</h4>
             <FormComponent
-              client={client}
+              {...(variant !== "add" && client ? { client } : {})}
               userID={userID}
               onSuccessChange={() => setOpen(false)}
             />
