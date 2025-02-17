@@ -12,7 +12,7 @@ const auth = async (data: FetchAuthInterface) => {
     const response = await api.post('/auth', data);
     return response.data;
   } catch (error) {
-    if (error instanceof AxiosError && error.message) {
+    if (error instanceof AxiosError) {
       throw error.response?.data;
     } else {
       throw error;
