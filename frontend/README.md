@@ -1,50 +1,61 @@
-# React + TypeScript + Vite
+# Frontend do Projeto Teddy
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Este é o frontend do projeto Teddy, construído com React e Vite, aqui um passo a passo caso queira rodar somente o frontend.
+OBS: Caso estejá rodando o Monorepo execute somente a etapa de Variáveis de Ambiente
 
-Currently, two official plugins are available:
+## Pré-requisitos
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+- Node.js (versão 14 ou superior)
+- Docker (opcional)
 
-## Expanding the ESLint configuration
+## Instalação
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
+1. Navegue até o diretório `frontend`:
 
-- Configure the top-level `parserOptions` property like this:
-
-```js
-export default tseslint.config({
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
+```bash
+cd frontend
 ```
 
-- Replace `tseslint.configs.recommended` to `tseslint.configs.recommendedTypeChecked` or `tseslint.configs.strictTypeChecked`
-- Optionally add `...tseslint.configs.stylisticTypeChecked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and update the config:
+2. Instale as dependências:
 
-```js
-// eslint.config.js
-import react from 'eslint-plugin-react'
-
-export default tseslint.config({
-  // Set the react version
-  settings: { react: { version: '18.3' } },
-  plugins: {
-    // Add the react plugin
-    react,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended rules
-    ...react.configs.recommended.rules,
-    ...react.configs['jsx-runtime'].rules,
-  },
-})
+```bash
+npm install
 ```
+
+## Variáveis de Ambiente
+
+Copie o arquivo `.env.example` para `.env` e configure as variáveis de ambiente conforme necessário.
+
+```env
+# URL do backend
+VITE_API_HOST=http://localhost:3000
+```
+
+## Rodando o Frontend
+
+### Ambiente de Desenvolvimento
+
+Para rodar o frontend em ambiente de desenvolvimento:
+
+```bash
+npm run dev
+```
+### Usando Docker
+
+Para rodar o backend usando Docker:
+
+```bash
+docker compose -f docker-compose.dev.yaml #Para ambiente de desenvolvimento
+docker compose -f docker-compose.prod.yaml #Para ambiente de produção
+```
+
+## Scripts Disponíveis
+
+- `docker:dev`: Inicia o frontend em modo de desenvolvimento usando Docker.
+- `docker:prod`: Inicia o frontend em modo de produção usando Docker.
+- `dev`: Inicia o frontend em modo de desenvolvimento.
+- `prod`: Inicia o frontend em modo de produção.
+- `build`: Constrói o backend.
+- `serve`: Serve o frontend construído ("roda" a build).
+
+

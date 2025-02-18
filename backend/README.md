@@ -1,73 +1,73 @@
-<p align="center">
-  <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="200" alt="Nest Logo" /></a>
-</p>
+# Backend do Projeto Teddy
 
-[circleci-image]: https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456
-[circleci-url]: https://circleci.com/gh/nestjs/nest
+Este é o backend do projeto Teddy, construído com NestJS, aqui um passo a passo caso queira rodar somente o backend.  
+OBS: Caso estejá rodando o Monorepo execute somente a etapa de Variáveis de Ambiente
 
-  <p align="center">A progressive <a href="http://nodejs.org" target="_blank">Node.js</a> framework for building efficient and scalable server-side applications.</p>
-    <p align="center">
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/dm/@nestjs/common.svg" alt="NPM Downloads" /></a>
-<a href="https://circleci.com/gh/nestjs/nest" target="_blank"><img src="https://img.shields.io/circleci/build/github/nestjs/nest/master" alt="CircleCI" /></a>
-<a href="https://coveralls.io/github/nestjs/nest?branch=master" target="_blank"><img src="https://coveralls.io/repos/github/nestjs/nest/badge.svg?branch=master#9" alt="Coverage" /></a>
-<a href="https://discord.gg/G7Qnnhy" target="_blank"><img src="https://img.shields.io/badge/discord-online-brightgreen.svg" alt="Discord"/></a>
-<a href="https://opencollective.com/nest#backer" target="_blank"><img src="https://opencollective.com/nest/backers/badge.svg" alt="Backers on Open Collective" /></a>
-<a href="https://opencollective.com/nest#sponsor" target="_blank"><img src="https://opencollective.com/nest/sponsors/badge.svg" alt="Sponsors on Open Collective" /></a>
-  <a href="https://paypal.me/kamilmysliwiec" target="_blank"><img src="https://img.shields.io/badge/Donate-PayPal-ff3f59.svg"/></a>
-    <a href="https://opencollective.com/nest#sponsor"  target="_blank"><img src="https://img.shields.io/badge/Support%20us-Open%20Collective-41B883.svg" alt="Support us"></a>
-  <a href="https://twitter.com/nestframework" target="_blank"><img src="https://img.shields.io/twitter/follow/nestframework.svg?style=social&label=Follow"></a>
-</p>
-  <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
-  [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
+## Pré-requisitos
 
-## Description
+- Node.js (versão 14 ou superior)
+- Docker (opcional)
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
+## Instalação
 
-## Installation
+1. Navegue até o diretório `backend`:
 
 ```bash
-$ npm install
+cd backend
 ```
 
-## Running the app
+2. Instale as dependências:
 
 ```bash
-# development
-$ npm run start
-
-# watch mode
-$ npm run start:dev
-
-# production mode
-$ npm run start:prod
+npm install
 ```
 
-## Test
+## Variáveis de Ambiente
+
+Copie o arquivo `.env.example` para `.env` e configure as variáveis de ambiente conforme necessário.
+
+```env
+# Configuração do banco de dados
+POSTGRES_DB=database
+POSTGRES_USER=root
+POSTGRES_PASSWORD=root123
+POSTGRES_HOST=db
+POSTGRES_PORT=5432
+POSTGRES_SYNCHRONIZE=true
+
+# Configuração de conta do pgAdmin
+PGADMIN_DEFAULT_EMAIL=admin@admin.com
+PGADMIN_DEFAULT_PASSWORD=root
+
+# Configuração do JWT - chave de autenticação
+JWT_SECRET_TOKEN=123456
+```
+
+## Rodando o Backend
+
+### Ambiente de Desenvolvimento
+
+Para rodar o backend em ambiente de desenvolvimento:
 
 ```bash
-# unit tests
-$ npm run test
-
-# e2e tests
-$ npm run test:e2e
-
-# test coverage
-$ npm run test:cov
+npm run start:dev
 ```
 
-## Support
+### Usando Docker
 
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
+Para rodar o backend usando Docker:
 
-## Stay in touch
+```bash
+docker compose -f docker-compose.dev.yaml #Para ambiente de desenvolvimento
+docker compose -f docker-compose.prod.yaml #Para ambiente de produção
+```
 
-- Author - [Kamil Myśliwiec](https://kamilmysliwiec.com)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
+## Scripts Disponíveis
 
-## License
+- `docker:db`: Inicializa apenas o banco de dados no Docker.
+- `docker:start:dev`: Inicia o backend em modo de desenvolvimento usando Docker.
+- `docker:start:prod`: Inicia o backend em modo de produção usando Docker.
+- `start:dev`: Inicia o backend em modo de desenvolvimento.
+- `start:prod`: Inicia o backend em modo de produção.
+- `build`: Constrói o backend.
 
-Nest is [MIT licensed](LICENSE).
