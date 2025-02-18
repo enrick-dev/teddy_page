@@ -48,7 +48,7 @@ const Body: React.FC<PropsBody> = ({ clients }) => {
               companyValue={client.companyValue}
             />
             <CardClient.Footer
-              id={client.id}
+              client={client}
               selected={client.selected || false}
               variants={["select"]}
             />

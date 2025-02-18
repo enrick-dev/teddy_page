@@ -1,4 +1,5 @@
 import { Minus, Pencil, Plus, Trash2 } from "lucide-react";
+import { motion } from "motion/react";
 import React, { PropsWithChildren } from "react";
 import { Client } from "../hooks/client/useFetchClient";
 import { useUpdateClient } from "../hooks/client/useUpdateClient";
@@ -63,16 +64,43 @@ const CardClientFooter: React.FC<PropsCardClientFooter> = ({
     >
       {variants.includes("select") &&
         ((!selected && (
-          <button className="cursor-pointer" onClick={() => selecting(true)}>
+          <motion.button
+            {...{
+              initial: {
+                rotate: "0deg",
+              },
+              animate: {
+                rotate: "180deg",
+                transition: {
+                  duration: 0.5,
+                  ease: [0.33, 1, 0.68, 1],
+                },
+              },
+            }}
+            className="cursor-pointer"
+            onClick={() => selecting(true)}
+          >
             <Plus className="size-[25px]" />
-          </button>
+          </motion.button>
         )) || (
-          <button
+          <motion.div
+            {...{
+              initial: {
+                rotate: "90deg",
+              },
+              animate: {
+                rotate: "0deg",
+                transition: {
+                  duration: 0.4,
+                  ease: [0.33, 1, 0.68, 1],
+                },
+              },
+            }}
             className="text-primary cursor-pointer"
             onClick={() => selecting(false)}
           >
             <Minus className="size-[25px]" />
-          </button>
+          </motion.div>
         ))}
       {variants.includes("edit") && (
         <DialogClient client={client} variant="edit">
