@@ -2,6 +2,8 @@ FROM node:21-slim
 
 RUN npm install -g @nestjs/cli@10.3.2
 
+COPY package.json package-lock.json ./
+
 RUN npm install
 
 WORKDIR /home/node/app

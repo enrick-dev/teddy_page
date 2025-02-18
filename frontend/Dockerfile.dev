@@ -2,7 +2,7 @@ FROM node:21-slim as build_image
 
 WORKDIR /home/node/app
 
-COPY package.json .
+COPY package.json package-lock.json ./
 
 RUN npm install
 

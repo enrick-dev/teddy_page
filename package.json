@@ -9,7 +9,7 @@
   "scripts": {
     "start:dev": "npm run dev:backend & npm run dev:frontend",
     "start:prod": "npm run prod:backend & npm run prod:frontend",
-    "docker:db": "docker compose -f docker-compose.dev.yaml up db pgadmin --build",
+    "docker:db": "npm run docker:db -w backend",
     "docker:start:dev": "docker compose -f docker-compose.dev.yaml up --build",
     "docker:start:prod": "docker compose -f docker-compose.prod.yaml up --build",
     "dev:backend": "npm run start:dev -w backend",
