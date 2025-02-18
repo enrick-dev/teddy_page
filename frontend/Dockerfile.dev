@@ -1,0 +1,14 @@
+FROM node:21-slim as build_image
+
+WORKDIR /home/node/app
+
+COPY package.json .
+
+RUN npm install
+
+COPY . .
+
+CMD tail -f /dev/null
+
+
+

@@ -1,0 +1,3 @@
+include:
+  - './backend/docker-compose.prod.yaml'
+  - './frontend/docker-compose.prod.yaml'

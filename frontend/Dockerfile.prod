@@ -1,0 +1,25 @@
+FROM node:alpine as build_image
+
+ARG VITE_API_HOST
+ENV VITE_API_HOST=$VITE_API_HOST
+
+WORKDIR /home/node/app
+
+COPY package.json ./
+RUN npm install
+
+COPY . .
+
+RUN npm run build
+
+FROM node:alpine as production_image
+
+WORKDIR /home/node/app
+
+COPY --from=build_image /home/node/app/dist ./dist
+
+RUN npm install -g serve
+
+EXPOSE 5173
+
+CMD ["serve", "-s", "dist", "-l", "5173"]

@@ -1,0 +1,9 @@
+services:
+  app-frontend:
+    build:
+      context: .
+      dockerfile: Dockerfile.prod
+    ports:
+      - 5173:5173
+    volumes:
+      - .:/home/node/app

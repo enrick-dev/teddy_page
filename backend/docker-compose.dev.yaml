@@ -1,13 +1,13 @@
 services:
-  # app:
-  #   build:
-  #     context: .
-  #     dockerfile: ${DOCKERFILE}
-  #   ports:
-  #     - '3000:3000'
-  #   volumes:
-  #     - .:/home/node/app
-  #     - /home/node/app/node_modules
+  app-backend:
+    build:
+      context: .
+      dockerfile: Dockerfile.dev
+    ports:
+      - '3000:3000'
+    volumes:
+      - .:/home/node/app
+      - /home/node/app/node_modules
 
   db:
     image: postgres
