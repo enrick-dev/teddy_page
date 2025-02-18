@@ -13,4 +13,5 @@ export const ErrorMessages = {
   INVALID_PASSWORD: 'Senha inválida',
   USERNAME_CANNOT_BE_EMPTY: 'O nome de usuário não pode estar vazio',
   PASSWORD_CANNOT_BE_EMPTY: 'A senha não pode estar vazio',
+  INTERNAL_USER_CREATE: 'Erro interno ao registrar usuário',
 };

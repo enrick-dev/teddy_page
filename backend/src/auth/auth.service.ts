@@ -1,4 +1,5 @@
 import {
+  BadRequestException,
   Injectable,
   NotFoundException,
   UnauthorizedException,
@@ -14,6 +15,8 @@ import { UserJwtAuthPayload } from './payload/user-jwt-auth.payload';
 import { UserService } from 'src/user/user.service';
 import { ErrorMessages } from 'src/response-messages/error-messages';
 import { LoginAuthResponsePayload } from './payload/login-auth-response.payload';
+import { RegisterUserDto } from './dto/register-user-auth.dto';
+import { SuccessMessages } from 'src/response-messages/success-messages';
 
 @Injectable()
 export class AuthService {
@@ -43,6 +46,18 @@ export class AuthService {
     return {
       token: this.jwtService.sign({ id: user.id, username: user.username }),
     };
+  }
+
+  async registerUser(registerUserDto: RegisterUserDto) {
+    const { message } = await this.userService.create(registerUserDto);
+
+    if (message !== SuccessMessages.USER_CREATED) {
+      throw new BadRequestException(ErrorMessages.INTERNAL_USER_CREATE);
+    }
+
+    const loggedUser = await this.login(registerUserDto);
+
+    return loggedUser;
   }
 
   async getUserByToken(token: string) {

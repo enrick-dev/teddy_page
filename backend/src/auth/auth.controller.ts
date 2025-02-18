@@ -3,7 +3,10 @@ import { AuthService } from './auth.service';
 import { LoginAuthDto } from './dto/login-auth.dto';
 import { IsPublic } from './decorators/is-public.decorator';
 import {
+  ApiBadRequestResponse,
   ApiBearerAuth,
+  ApiBody,
+  ApiConflictResponse,
   ApiCreatedResponse,
   ApiNotFoundResponse,
   ApiOperation,
@@ -13,6 +16,8 @@ import {
 import { LoginAuthResponsePayload } from './payload/login-auth-response.payload';
 import { ErrorMessages } from 'src/response-messages/error-messages';
 import { FindOneUserResponsePayload } from 'src/user/payload/find-one-user-response.payload';
+import { RegisterUserDto } from './dto/register-user-auth.dto';
+import { CreateUserDto } from 'src/user/dto/create-user.dto';
 
 @Controller('auth')
 export class AuthController {
@@ -24,12 +29,25 @@ export class AuthController {
     summary: 'Autenticação de usuário',
   })
   @ApiCreatedResponse({ description: 'Login', type: LoginAuthResponsePayload })
+  @ApiConflictResponse({ description: ErrorMessages.USER_ALREADY_EXISTS })
   @ApiNotFoundResponse({ description: ErrorMessages.USERNAME_NOT_FOUND })
   @ApiUnauthorizedResponse({ description: ErrorMessages.INVALID_PASSWORD })
   async login(
     @Body() loginAuthDto: LoginAuthDto,
   ): Promise<LoginAuthResponsePayload> {
     return this.authService.login(loginAuthDto);
+  }
+
+  @IsPublic()
+  @Post('register')
+  @ApiOperation({
+    summary: 'Criar usuário e retornar um token',
+  })
+  @ApiBody({ type: CreateUserDto })
+  @ApiCreatedResponse({ description: 'Login', type: LoginAuthResponsePayload })
+  @ApiBadRequestResponse({ description: ErrorMessages.INTERNAL_USER_CREATE })
+  registerUser(@Body() registerUserDto: RegisterUserDto) {
+    return this.authService.registerUser(registerUserDto);
   }
 
   @Get(':token')
