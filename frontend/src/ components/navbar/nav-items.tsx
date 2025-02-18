@@ -8,7 +8,7 @@ const NavItems = () => {
       <ul className="flex items-center gap-8 font-light">
         <li>
           <NavLink
-            to="/"
+            to="/clientes"
             className={({ isActive }) =>
               isActive ? "text-primary border-primary border-b" : ""
             }
@@ -18,7 +18,7 @@ const NavItems = () => {
         </li>
         <li>
           <NavLink
-            to="/selecionados"
+            to="/clientes-selecionados"
             className={({ isActive }) =>
               isActive ? "text-primary border-primary border-b" : ""
             }

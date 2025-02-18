@@ -26,7 +26,7 @@ const Login = () => {
 
   const navigate = useNavigate();
   React.useEffect(() => {
-    if (token) navigate("/");
+    if (token) navigate("/clientes");
   }, [token]);
 
   return (

@@ -1,7 +1,9 @@
+import Sidebar from "../sidebar/side-app";
+
 const NavMenu = () => {
   return (
     <div>
-      <div></div>
+      <Sidebar />
       <div>
         <img
           src="logo.png"
