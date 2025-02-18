@@ -6,6 +6,9 @@
   "scripts": {
     "dev": "vite",
     "build": "tsc -b && vite build",
+    "prod": "npm run build && npm run serve",
+    "docker:dev": "docker compose -f docker-compose.dev.yaml up --build",
+    "docker:prod": "docker compose -f docker-compose.prod.yaml up --build",
     "lint": "eslint .",
     "preview": "vite preview",
     "serve": "serve -s dist -l 5173"
