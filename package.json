@@ -1,14 +1,20 @@
 {
   "name": "teddy",
   "version": "1.0.0",
+  "private": true,
+  "workspaces": [
+    "backend",
+    "frontend"
+  ],
   "scripts": {
     "start:dev": "npm run dev:backend & npm run dev:frontend",
     "start:prod": "npm run prod:backend & npm run prod:frontend",
+    "docker:db": "docker compose -f docker-compose.dev.yaml up db pgadmin --build",
     "docker:start:dev": "docker compose -f docker-compose.dev.yaml up --build",
     "docker:start:prod": "docker compose -f docker-compose.prod.yaml up --build",
-    "dev:backend": "cd backend && npm run start:dev",
-    "dev:frontend": "cd frontend && npm run dev",
-    "prod:backend": "cd backend && npm run start:prod",
-    "prod:frontend": "cd frontend && npm run build && npm run serve"
+    "dev:backend": "npm run start:dev -w backend",
+    "dev:frontend": "npm run dev -w frontend",
+    "prod:backend": "npm run start:prod -w backend",
+    "prod:frontend": "npm run build -w frontend && npm run serve -w frontend"
   }
 }
