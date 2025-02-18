@@ -1,6 +1,6 @@
 import * as Dialog from "@radix-ui/react-dialog";
 import { X } from "lucide-react";
-import React, { PropsWithChildren, useRef } from "react";
+import React, { PropsWithChildren } from "react";
 import { useAuth } from "../context/auth";
 import { useCreateClient } from "../hooks/client/useCreateClient";
 import { Client } from "../hooks/client/useFetchClient";
@@ -18,16 +18,16 @@ interface PropsComponent {
 const ComponentAdd: React.FC<PropsComponent> = ({ onSuccessChange }) => {
   const { mutate, isPending } = useCreateClient();
   const { userID } = useAuth();
-  const inputName = useRef<HTMLInputElement | null>(null);
-  const inputSalary = useRef<HTMLInputElement | null>(null);
-  const inputCompanyValue = useRef<HTMLInputElement | null>(null);
+  const [name, setName] = React.useState<string>("");
+  const [salary, setSalary] = React.useState<number>(0);
+  const [companyValue, setCompanyValue] = React.useState<number>(0);
 
   const editClient = () => {
     mutate(
       {
-        name: inputName.current?.value ?? "",
-        salary: Number(inputSalary.current?.value ?? 0),
-        companyValue: Number(inputCompanyValue.current?.value ?? 0),
+        name,
+        salary,
+        companyValue,
         userID,
       },
       { onSuccess: onSuccessChange },
@@ -37,10 +37,19 @@ const ComponentAdd: React.FC<PropsComponent> = ({ onSuccessChange }) => {
   return (
     <div className="min-w-[400px]">
       <div className="flex flex-col gap-2.5">
-        <Input ref={inputName} placeholder="Digite o nome:" />
-        <Input ref={inputSalary} placeholder="Digite o salário:" />
         <Input
-          ref={inputCompanyValue}
+          value={name}
+          onChange={(e) => setName(e.target.value)}
+          placeholder="Digite o nome:"
+        />
+        <Input
+          value={salary.toCurrency()}
+          onChange={(e) => setSalary(e.target.value.currencyToNumber())}
+          placeholder="Digite o salário:"
+        />
+        <Input
+          value={companyValue.toCurrency()}
+          onChange={(e) => setCompanyValue(e.target.value.currencyToNumber())}
           placeholder="Digite o valor da empresa:"
         />
       </div>
@@ -60,9 +69,11 @@ const ComponentEdit: React.FC<PropsComponent> = ({
   onSuccessChange,
 }) => {
   const { mutate, isPending } = useUpdateClient();
-  const inputName = useRef<HTMLInputElement | null>(null);
-  const inputSalary = useRef<HTMLInputElement | null>(null);
-  const inputCompanyValue = useRef<HTMLInputElement | null>(null);
+  const [name, setName] = React.useState<string>(client?.name || "");
+  const [salary, setSalary] = React.useState<number>(client?.salary || 0);
+  const [companyValue, setCompanyValue] = React.useState<number>(
+    client?.companyValue || 0,
+  );
 
   if (!client) {
     return <p>Erro: Cliente não encontrado.</p>;
@@ -72,9 +83,9 @@ const ComponentEdit: React.FC<PropsComponent> = ({
     mutate(
       {
         id: client.id,
-        name: inputName.current?.value ?? "",
-        salary: Number(inputSalary.current?.value ?? 0),
-        companyValue: Number(inputCompanyValue.current?.value ?? 0),
+        name,
+        salary,
+        companyValue,
       },
       { onSuccess: onSuccessChange },
     );
@@ -84,18 +95,18 @@ const ComponentEdit: React.FC<PropsComponent> = ({
     <div className="min-w-[400px]">
       <div className="flex flex-col gap-2.5">
         <Input
-          ref={inputName}
-          defaultValue={client.name}
+          value={name}
+          onChange={(e) => setName(e.target.value)}
           placeholder="Digite o nome:"
         />
         <Input
-          ref={inputSalary}
-          defaultValue={client.salary}
+          value={salary.toCurrency()}
+          onChange={(e) => setSalary(e.target.value.currencyToNumber())}
           placeholder="Digite o salário:"
         />
         <Input
-          ref={inputCompanyValue}
-          defaultValue={client.companyValue}
+          value={companyValue.toCurrency()}
+          onChange={(e) => setCompanyValue(e.target.value.currencyToNumber())}
           placeholder="Digite o valor da empresa:"
         />
       </div>

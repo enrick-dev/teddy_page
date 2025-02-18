@@ -28,8 +28,8 @@ const CardClientContent: React.FC<PropsCardClientContent> = ({
     <div>
       <h4 className="pb-1 text-[18px] font-bold"> {name}</h4>
       <div className="space-y-1 text-[16px]">
-        <p>Salário: {salary}</p>
-        <p>Empresa: {companyValue}</p>
+        <p>Salário: {salary.toCurrency()}</p>
+        <p>Empresa: {companyValue.toCurrency()}</p>
       </div>
     </div>
   );

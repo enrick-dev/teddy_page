@@ -1,12 +1,13 @@
-import { StrictMode } from 'react';
-import { createRoot } from 'react-dom/client';
-import './index.css';
-import { RouterProvider } from 'react-router-dom';
-import router from './routes/router.tsx';
-import { QueryClientProvider } from '@tanstack/react-query';
-import client from './helpers/queryClient.ts';
+import { QueryClientProvider } from "@tanstack/react-query";
+import { StrictMode } from "react";
+import { createRoot } from "react-dom/client";
+import { RouterProvider } from "react-router-dom";
+import client from "./helpers/queryClient.ts";
+import "./index.css";
+import router from "./routes/router.tsx";
+import "./utils/prototypes.ts";
 
-createRoot(document.getElementById('root')!).render(
+createRoot(document.getElementById("root")!).render(
   <StrictMode>
     <QueryClientProvider client={client}>
       <RouterProvider router={router} />
