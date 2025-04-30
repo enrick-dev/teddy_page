@@ -154,6 +154,7 @@ const ComponentRemove: React.FC<PropsComponent> = ({
 
 interface PropsDialogClient extends PropsWithChildren {
   client?: Client;
+  onSuccessAction?: VoidFunction;
   variant: "add" | "edit" | "remove";
 }
 
@@ -166,12 +167,20 @@ const Forms = {
 const DialogClient: React.FC<PropsDialogClient> = ({
   client,
   variant,
+  onSuccessAction,
   children,
 }) => {
   const [open, setOpen] = React.useState(false);
   const { userID } = useAuth();
   const FormTitle = Forms[variant].text || "";
   const FormComponent = Forms[variant].component;
+
+  const onSuccess = () => {
+    setOpen(false);
+    if (onSuccessAction) {
+      onSuccessAction();
+    }
+  };
 
   return (
     <Dialog.Root open={open} onOpenChange={setOpen}>
@@ -187,7 +196,7 @@ const DialogClient: React.FC<PropsDialogClient> = ({
             <FormComponent
               {...(variant !== "add" && client ? { client } : {})}
               userID={userID}
-              onSuccessChange={() => setOpen(false)}
+              onSuccessChange={onSuccess}
             />
           </div>
           <Dialog.Close className="ring-offset-background focus:ring-ring data-[state=open]:bg-accent data-[state=open]:text-muted-foreground absolute top-4 right-4 cursor-pointer rounded-sm opacity-70 transition-opacity hover:opacity-100 focus:ring-2 focus:ring-offset-2 focus:outline-none disabled:pointer-events-none">

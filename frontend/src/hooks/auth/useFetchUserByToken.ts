@@ -10,7 +10,13 @@ export interface FetchUserByTokenResponse {
   updatedAt: string;
 }
 
+async function _fetchUserByToken(t: string): Promise<FetchUserByTokenResponse> {
+  return api.get<FetchUserByTokenResponse>(`/auth/${t}`);
+}
+
 export function useFetchUserByToken(token: string | null) {
+  const fetchUserByTokenFn = React.useCallback(_fetchUserByToken, []);
+
   const {
     data,
     error,
@@ -18,18 +24,15 @@ export function useFetchUserByToken(token: string | null) {
     isError,
     isSuccess,
     execute: fetchByToken,
-  } = useAsync<FetchUserByTokenResponse, string>((t) =>
-    api.get<FetchUserByTokenResponse>(`/auth/${t}`),
-  );
+  } = useAsync<FetchUserByTokenResponse, string>(fetchUserByTokenFn);
 
   React.useEffect(() => {
-    if (token) {
-      fetchByToken(token);
-    }
-  }, [token, fetchByToken]);
+    if (!token) return;
+    if (isLoading || isSuccess) return;
+    fetchByToken(token);
+  }, [token, isLoading, isSuccess, fetchByToken]);
 
   return {
-    refetch: fetchByToken,
     data,
     error,
     isLoading,

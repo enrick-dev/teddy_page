@@ -37,10 +37,11 @@ const Nav: React.FC<PropsNav> = ({ totalClients, limit, setLimit }) => {
 };
 
 interface PropsBody {
+  refetchClients: VoidFunction;
   clients: Client[];
 }
 
-const Body: React.FC<PropsBody> = ({ clients }) => {
+const Body: React.FC<PropsBody> = ({ clients, refetchClients }) => {
   return (
     <div className="flex max-h-[600px] flex-1 overflow-y-scroll">
       <div className="flex h-fit w-full flex-wrap items-start justify-center gap-5">
@@ -54,6 +55,7 @@ const Body: React.FC<PropsBody> = ({ clients }) => {
             <CardClient.Footer
               client={client}
               selected={client.selected || false}
+              onSuccessChange={refetchClients}
               variants={["select", "edit", "remove"]}
             />
           </CardClient.Root>
@@ -65,13 +67,19 @@ const Body: React.FC<PropsBody> = ({ clients }) => {
 interface PropsFooter {
   page: number;
   totalPages: number;
+  refetchClients: VoidFunction;
   onPageChange: (page: number) => void;
 }
 
-const Footer: React.FC<PropsFooter> = ({ page, totalPages, onPageChange }) => {
+const Footer: React.FC<PropsFooter> = ({
+  page,
+  totalPages,
+  refetchClients,
+  onPageChange,
+}) => {
   return (
     <div className="flex-initial pt-4 pb-5">
-      <DialogClient variant="add">
+      <DialogClient variant="add" onSuccessAction={refetchClients}>
         <Button className="border-primary hover:bg-primary text-primary hover:text-secondary w-full border bg-transparent text-[14px] font-bold">
           Criar cliente
         </Button>
@@ -96,6 +104,7 @@ const ClientList = () => {
 
   React.useEffect(() => {
     refetch();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [page, limit]);
 
   return (
@@ -105,11 +114,12 @@ const ClientList = () => {
         limit={limit}
         setLimit={setLimit}
       />
-      <Body clients={data?.clients || []} />
+      <Body clients={data?.clients || []} refetchClients={refetch} />
 
       <Footer
         page={page}
         totalPages={data?.totalPages || 0}
+        refetchClients={refetch}
         onPageChange={setPage}
       />
     </div>

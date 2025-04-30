@@ -44,7 +44,7 @@ export const AuthProvider: React.FC = () => {
 
   useEffect(() => {
     if (!token) navigate("/entrar");
-  }, [token]);
+  }, [token, navigate]);
 
   const [userData, setUserData] = React.useState({
     userID: localStorageManager.getItem("@Auth:id") || "",
@@ -57,7 +57,7 @@ export const AuthProvider: React.FC = () => {
   const user = useFetchUserByToken(!userData.userID ? token : null);
 
   useEffect(() => {
-    if (user.data) {
+    if (user.data && user.isSuccess) {
       localStorageManager.setItem("@Auth:id", user.data?.id);
       localStorageManager.setItem("@Auth:name", user.data?.name);
       localStorageManager.setItem("@Auth:username", user.data?.username);
@@ -67,14 +67,14 @@ export const AuthProvider: React.FC = () => {
         username: user.data?.username,
       });
     }
-  }, [user.isSuccess]);
+  }, [user]);
 
   useEffect(() => {
     if (isSuccess && data) {
       localStorageManager.setItem("@Auth:token", data.token);
       setToken(data.token);
     }
-  }, [isSuccess]);
+  }, [isSuccess, data]);
 
   const sign = (data: PropsFetchAuth) => {
     mutate(data);

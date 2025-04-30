@@ -8,6 +8,11 @@ export interface AsyncState<T> {
   isSuccess: boolean;
 }
 
+export interface ExecuteOptions<T> {
+  onSuccess?: (data: T) => void;
+  onError?: (error: unknown) => void;
+}
+
 export function useAsync<T, P = void>(asyncFn: (params: P) => Promise<T>) {
   const [state, setState] = useState<AsyncState<T>>({
     data: null,
@@ -18,7 +23,7 @@ export function useAsync<T, P = void>(asyncFn: (params: P) => Promise<T>) {
   });
 
   const execute = useCallback(
-    async (params: P) => {
+    async (params: P, options?: ExecuteOptions<T>) => {
       setState({
         data: null,
         error: null,
@@ -35,6 +40,7 @@ export function useAsync<T, P = void>(asyncFn: (params: P) => Promise<T>) {
           isError: false,
           isSuccess: true,
         });
+        options?.onSuccess?.(result);
         return result;
       } catch (err) {
         setState({
@@ -44,6 +50,7 @@ export function useAsync<T, P = void>(asyncFn: (params: P) => Promise<T>) {
           isError: true,
           isSuccess: false,
         });
+        options?.onError?.(err);
         throw err;
       }
     },

@@ -34,9 +34,10 @@ const Nav: React.FC<PropsNav> = ({ limit, setLimit }) => {
 
 interface PropsBody {
   clients: Client[];
+  refetchClients: VoidFunction;
 }
 
-const Body: React.FC<PropsBody> = ({ clients }) => {
+const Body: React.FC<PropsBody> = ({ clients, refetchClients }) => {
   return (
     <div className="flex max-h-[600px] flex-1 overflow-y-scroll">
       <div className="flex h-fit w-full flex-wrap items-start justify-center gap-5">
@@ -49,6 +50,7 @@ const Body: React.FC<PropsBody> = ({ clients }) => {
             />
             <CardClient.Footer
               client={client}
+              onSuccessChange={refetchClients}
               selected={client.selected || false}
               variants={["select"]}
             />
@@ -63,6 +65,7 @@ interface PropsFooter {
   page: number;
   totalPages: number;
   totalClients: number;
+  refetchClients: VoidFunction;
   onPageChange: (page: number) => void;
 }
 
@@ -70,13 +73,14 @@ const Footer: React.FC<PropsFooter> = ({
   totalClients,
   page,
   totalPages,
+  refetchClients,
   onPageChange,
 }) => {
   const { userID } = useAuth();
   const { mutate, isPending } = useClearSelectedClient();
 
   const clearSelectedClients = () => {
-    mutate({ userID });
+    mutate({ userID }, { onSuccess: refetchClients });
   };
   return (
     <div className="flex-initial pt-4 pb-5">
@@ -118,12 +122,13 @@ const ClientSelected = () => {
   return (
     <div className="flex h-full flex-col px-[120px] pt-[30px]">
       <Nav limit={limit} setLimit={setLimit} />
-      <Body clients={data?.clients || []} />
+      <Body clients={data?.clients || []} refetchClients={refetch} />
 
       <Footer
         totalClients={data?.totalClients || 0}
         page={page}
         totalPages={data?.totalPages || 0}
+        refetchClients={refetch}
         onPageChange={setPage}
       />
     </div>

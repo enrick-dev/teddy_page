@@ -28,7 +28,23 @@ interface DataFetchClient {
   limit: number;
 }
 
+async function _fetchClientApi(
+  params: PropsFetchClient,
+): Promise<DataFetchClient> {
+  const { page, limit, userID, selected } = params;
+  const query = new URLSearchParams({
+    page: String(page),
+    limit: String(limit),
+    userID: String(userID),
+    ...(selected !== undefined ? { selected: String(selected) } : {}),
+  }).toString();
+
+  return api.get<DataFetchClient>(`/client?${query}`);
+}
+
 export function useFetchClient(params: PropsFetchClient) {
+  const fetchClientFn = React.useCallback(_fetchClientApi, []);
+
   const {
     data,
     error,
@@ -36,25 +52,16 @@ export function useFetchClient(params: PropsFetchClient) {
     isSuccess,
     isLoading: isPending,
     execute: fetchClients,
-  } = useAsync<DataFetchClient, PropsFetchClient>((params) => {
-    const { page, limit, userID, selected } = params;
-    const query = new URLSearchParams({
-      page: String(page),
-      limit: String(limit),
-      userID: String(userID),
-      ...(selected !== undefined ? { selected: String(selected) } : {}),
-    }).toString();
-    return api.get<DataFetchClient>(`/client?${query}`);
-  });
+  } = useAsync<DataFetchClient, PropsFetchClient>(fetchClientFn);
+
+  const { page, limit, userID, selected } = params;
 
   React.useEffect(() => {
-    if (params) {
-      fetchClients(params);
-    }
-  }, [params, fetchClients]);
+    fetchClients({ page, limit, userID, selected });
+  }, [page, limit, userID, selected, fetchClients]);
 
   return {
-    refetch: fetchClients,
+    refetch: () => fetchClients(params),
     data,
     error,
     isPending,

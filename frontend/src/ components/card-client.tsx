@@ -38,21 +38,28 @@ const CardClientContent: React.FC<PropsCardClientContent> = ({
 interface PropsCardClientFooter {
   client: Client;
   selected: boolean;
+  onSuccessChange?: VoidFunction;
   variants: ("select" | "edit" | "remove")[];
 }
 
 const CardClientFooter: React.FC<PropsCardClientFooter> = ({
   client,
   selected,
+  onSuccessChange,
   variants,
 }) => {
   const { mutate } = useUpdateClient();
 
   const selecting = (selected: boolean) => {
-    mutate({
-      id: client.id,
-      selected,
-    });
+    mutate(
+      {
+        id: client.id,
+        selected,
+      },
+      {
+        ...(onSuccessChange ? { onSuccess: onSuccessChange } : {}),
+      },
+    );
   };
 
   return (
@@ -103,12 +110,20 @@ const CardClientFooter: React.FC<PropsCardClientFooter> = ({
           </motion.div>
         ))}
       {variants.includes("edit") && (
-        <DialogClient client={client} variant="edit">
+        <DialogClient
+          client={client}
+          onSuccessAction={onSuccessChange}
+          variant="edit"
+        >
           <Pencil className="size-[20px]" />
         </DialogClient>
       )}
       {variants.includes("remove") && (
-        <DialogClient client={client} variant="remove">
+        <DialogClient
+          client={client}
+          onSuccessAction={onSuccessChange}
+          variant="remove"
+        >
           <Trash2 className="size-[20px] text-red-500" />
         </DialogClient>
       )}
