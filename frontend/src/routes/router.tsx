@@ -10,6 +10,9 @@ const router = createBrowserRouter([
     Component: AuthProvider,
     children: [
       {
+        path: "*",
+      },
+      {
         path: "/entrar",
         element: <Login />,
       },

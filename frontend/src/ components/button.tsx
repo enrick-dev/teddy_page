@@ -1,6 +1,6 @@
-import * as React from 'react';
-import { LineMdLoadingLoop } from '../assets/LineMdLoadingLoop';
-import { cn } from '../utils/cn';
+import * as React from "react";
+import { LineMdLoadingLoop } from "../assets/LineMdLoadingLoop";
+import { cn } from "../utils/cn";
 
 interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   isLoading?: boolean;
@@ -13,7 +13,7 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
     return (
       <button
         className={cn(
-          `bg-primary cursor-pointer  text-primary-foreground hover:bg-primary/90 px-4 py-2 transition-all inline-flex items-center justify-center whitespace-nowrap rounded-sm  focus-visible:outline-none disabled:pointer-events-none disabled:opacity-50`,
+          `bg-primary text-primary-foreground hover:bg-primary/85 inline-flex cursor-pointer items-center justify-center rounded-sm px-4 py-2 whitespace-nowrap transition-all focus-visible:outline-none disabled:pointer-events-none disabled:opacity-50`,
           className,
         )}
         ref={ref}
@@ -25,6 +25,6 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
     );
   },
 );
-Button.displayName = 'Button';
+Button.displayName = "Button";
 
 export { Button };

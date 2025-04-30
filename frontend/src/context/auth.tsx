@@ -41,6 +41,12 @@ export const AuthProvider: React.FC = () => {
   const [token, setToken] = React.useState(
     localStorageManager.getItem("@Auth:token"),
   );
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (!token) navigate("/entrar");
+  }, [token]);
+
   const [userData, setUserData] = React.useState({
     userID: localStorageManager.getItem("@Auth:id") || "",
     name: localStorageManager.getItem("@Auth:name") || "",
@@ -48,7 +54,6 @@ export const AuthProvider: React.FC = () => {
   });
 
   const { mutate, isPending, isSuccess, data, error, isError } = useFetchAuth();
-  const navigate = useNavigate();
 
   const queryClient = useQueryClient();
 
@@ -66,10 +71,6 @@ export const AuthProvider: React.FC = () => {
       });
     }
   }, [user.isSuccess]);
-
-  useEffect(() => {
-    if (!token) navigate("/entrar");
-  }, [token]);
 
   useEffect(() => {
     if (isSuccess && data) {
