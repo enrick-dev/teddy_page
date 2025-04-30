@@ -62,6 +62,39 @@ const CardClientFooter: React.FC<PropsCardClientFooter> = ({
     );
   };
 
+  function SelectButton({
+    selected,
+    onToggle,
+  }: {
+    selected: boolean;
+    onToggle: (s: boolean) => void;
+  }) {
+    return !selected ? (
+      <motion.button
+        // animação só enquanto clica
+        whileTap={{
+          rotate: 180,
+          transition: { duration: 0.5, ease: [0.33, 1, 0.68, 1] },
+        }}
+        className="cursor-pointer"
+        onClick={() => onToggle(true)}
+      >
+        <Plus className="size-[25px]" />
+      </motion.button>
+    ) : (
+      <motion.div
+        whileTap={{
+          rotate: -90,
+          transition: { duration: 0.4, ease: [0.33, 1, 0.68, 1] },
+        }}
+        className="text-primary cursor-pointer"
+        onClick={() => onToggle(false)}
+      >
+        <Minus className="size-[25px]" />
+      </motion.div>
+    );
+  }
+
   return (
     <div
       className={cn(
@@ -69,46 +102,9 @@ const CardClientFooter: React.FC<PropsCardClientFooter> = ({
         variants.length > 1 ? "justify-between" : "justify-end",
       )}
     >
-      {variants.includes("select") &&
-        ((!selected && (
-          <motion.button
-            {...{
-              initial: {
-                rotate: "0deg",
-              },
-              animate: {
-                rotate: "180deg",
-                transition: {
-                  duration: 0.5,
-                  ease: [0.33, 1, 0.68, 1],
-                },
-              },
-            }}
-            className="cursor-pointer"
-            onClick={() => selecting(true)}
-          >
-            <Plus className="size-[25px]" />
-          </motion.button>
-        )) || (
-          <motion.div
-            {...{
-              initial: {
-                rotate: "90deg",
-              },
-              animate: {
-                rotate: "0deg",
-                transition: {
-                  duration: 0.4,
-                  ease: [0.33, 1, 0.68, 1],
-                },
-              },
-            }}
-            className="text-primary cursor-pointer"
-            onClick={() => selecting(false)}
-          >
-            <Minus className="size-[25px]" />
-          </motion.div>
-        ))}
+      {variants.includes("select") && (
+        <SelectButton selected={selected} onToggle={(v) => selecting(v)} />
+      )}
       {variants.includes("edit") && (
         <DialogClient
           client={client}
