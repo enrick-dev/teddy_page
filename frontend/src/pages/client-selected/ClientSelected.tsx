@@ -115,9 +115,13 @@ const ClientSelected = () => {
     userID,
   });
 
-  React.useEffect(() => {
+  const stableRefetch = React.useCallback(() => {
     refetch();
-  }, [page, limit]);
+  }, [refetch]);
+
+  React.useEffect(() => {
+    stableRefetch();
+  }, [page, limit, stableRefetch]);
 
   return (
     <div className="flex h-full flex-col px-[120px] pt-[30px]">
