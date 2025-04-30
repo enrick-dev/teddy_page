@@ -1,4 +1,3 @@
-import { useQueryClient } from "@tanstack/react-query";
 import React, { useEffect } from "react";
 import { Outlet, useNavigate } from "react-router-dom";
 import { PropsFetchAuth, useFetchAuth } from "../hooks/auth/useFetchAuth";
@@ -55,8 +54,6 @@ export const AuthProvider: React.FC = () => {
 
   const { mutate, isPending, isSuccess, data, error, isError } = useFetchAuth();
 
-  const queryClient = useQueryClient();
-
   const user = useFetchUserByToken(!userData.userID ? token : null);
 
   useEffect(() => {
@@ -84,8 +81,6 @@ export const AuthProvider: React.FC = () => {
   };
 
   const signOut = async () => {
-    await queryClient.clear();
-    await queryClient.cancelQueries();
     await setToken(null);
     localStorageManager.clear();
   };

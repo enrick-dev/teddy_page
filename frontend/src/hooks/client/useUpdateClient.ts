@@ -1,35 +1,36 @@
-import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { AxiosError } from "axios";
-import { api } from "../../services/api";
+import { api } from "../../services/customFetch";
+import { useAsync } from "../useAsync";
+import { Client } from "./useFetchClient";
 
-export interface PropsUseUpdateClient {
+export interface PropsUpdateClient {
   id: number;
   name?: string;
   companyValue?: number;
   salary?: number;
   selected?: boolean;
 }
-
-const updateClient = async ({ id, ...data }: PropsUseUpdateClient) => {
-  try {
-    const response = await api.patch("/client/" + id, data);
-    return response.data;
-  } catch (error) {
-    if (error instanceof AxiosError) {
-      throw error.response?.data;
-    } else {
-      throw error;
-    }
-  }
-};
+export interface DataUpdateClient {
+  message: string;
+  client: Client;
+}
 
 export function useUpdateClient() {
-  const queryClient = useQueryClient();
-  const mutate = useMutation({
-    mutationFn: updateClient,
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["fetchClient"] });
-    },
-  });
-  return mutate;
+  const {
+    data,
+    error,
+    isError,
+    isSuccess,
+    isLoading: isPending,
+    execute: mutate,
+  } = useAsync<DataUpdateClient, PropsUpdateClient>(({ id, ...body }) =>
+    api.patch<DataUpdateClient>("/client/" + id, body),
+  );
+  return {
+    data,
+    error,
+    isError,
+    isSuccess,
+    isPending,
+    mutate,
+  };
 }

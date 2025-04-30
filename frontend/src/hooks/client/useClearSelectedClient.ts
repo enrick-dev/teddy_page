@@ -1,31 +1,31 @@
-import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { AxiosError } from "axios";
-import { api } from "../../services/api";
+import { api } from "../../services/customFetch";
+import { useAsync } from "../useAsync";
 
 interface PropsClearSelectedClient {
   userID: number;
 }
-
-const clearSelectedClient = async (data: PropsClearSelectedClient) => {
-  try {
-    const response = await api.post("/client/clear/selected", data);
-    return response.data;
-  } catch (error) {
-    if (error instanceof AxiosError) {
-      throw error.response?.data;
-    } else {
-      throw error;
-    }
-  }
-};
+interface DataClearSelectedClient {
+  message: string;
+}
 
 export function useClearSelectedClient() {
-  const queryClient = useQueryClient();
-  const mutate = useMutation({
-    mutationFn: clearSelectedClient,
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["fetchClient"] });
-    },
-  });
-  return mutate;
+  const {
+    data,
+    error,
+    isError,
+    isSuccess,
+    isLoading: isPending,
+    execute: mutate,
+  } = useAsync<DataClearSelectedClient, PropsClearSelectedClient>((body) =>
+    api.post<DataClearSelectedClient>("/client/clear/selected", body),
+  );
+
+  return {
+    mutate,
+    data,
+    error,
+    isPending,
+    isError,
+    isSuccess,
+  };
 }

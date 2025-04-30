@@ -1,35 +1,39 @@
-import { useQuery } from '@tanstack/react-query';
+import React from "react";
+import { api } from "../../services/customFetch";
+import { useAsync } from "../useAsync";
 
-import { AxiosError } from 'axios';
-import { api } from '../../services/api';
-
-interface fetchUserByTokenResponse {
+export interface FetchUserByTokenResponse {
   id: number;
   name: string;
   username: string;
-  createdAt: Date;
-  updatedAt: Date;
+  createdAt: string;
+  updatedAt: string;
 }
-const fetchUserByToken = async (
-  token: string,
-): Promise<fetchUserByTokenResponse> => {
-  try {
-    const response = await api.get(`/auth/${token}`);
-    return response.data;
-  } catch (error) {
-    if (error instanceof AxiosError) {
-      throw error.response?.data;
-    } else {
-      throw error;
-    }
-  }
-};
 
-export function useFetchUserByToken(token: string) {
-  const query = useQuery({
-    enabled: !!token,
-    queryFn: () => fetchUserByToken(token),
-    queryKey: ['fetchUserByToken'],
-  });
-  return query;
+export function useFetchUserByToken(token: string | null) {
+  const {
+    data,
+    error,
+    isLoading,
+    isError,
+    isSuccess,
+    execute: fetchByToken,
+  } = useAsync<FetchUserByTokenResponse, string>((t) =>
+    api.get<FetchUserByTokenResponse>(`/auth/${t}`),
+  );
+
+  React.useEffect(() => {
+    if (token) {
+      fetchByToken(token);
+    }
+  }, [token, fetchByToken]);
+
+  return {
+    refetch: fetchByToken,
+    data,
+    error,
+    isLoading,
+    isError,
+    isSuccess,
+  };
 }

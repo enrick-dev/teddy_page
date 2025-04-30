@@ -1,34 +1,37 @@
-import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { AxiosError } from "axios";
-import { api } from "../../services/api";
+import { api } from "../../services/customFetch";
+import { useAsync } from "../useAsync";
+import { Client } from "./useFetchClient";
 
-export interface PropsUseCreateClient {
+interface PropsCreateClient {
   name: string;
   companyValue: number;
   salary: number;
   userID: number;
 }
 
-const createClient = async (data: PropsUseCreateClient) => {
-  try {
-    const response = await api.post("/client", data);
-    return response.data;
-  } catch (error) {
-    if (error instanceof AxiosError) {
-      throw error.response?.data;
-    } else {
-      throw error;
-    }
-  }
-};
+interface DataCreateClient {
+  message: string;
+  client: Client;
+}
 
 export function useCreateClient() {
-  const queryClient = useQueryClient();
-  const mutate = useMutation({
-    mutationFn: createClient,
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["fetchClient"] });
-    },
-  });
-  return mutate;
+  const {
+    data,
+    error,
+    isError,
+    isSuccess,
+    isLoading: isPending,
+    execute: mutate,
+  } = useAsync<DataCreateClient, PropsCreateClient>((body) =>
+    api.post<DataCreateClient>("/client", body),
+  );
+
+  return {
+    mutate,
+    data,
+    error,
+    isPending,
+    isError,
+    isSuccess,
+  };
 }

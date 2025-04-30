@@ -1,9 +1,8 @@
-import { useQuery } from "@tanstack/react-query";
+import React from "react";
+import { api } from "../../services/customFetch";
+import { useAsync } from "../useAsync";
 
-import { AxiosError } from "axios";
-import { api } from "../../services/api";
-
-interface BodyRequest {
+interface PropsFetchClient {
   selected?: boolean;
   page: number;
   limit: number;
@@ -21,31 +20,45 @@ export interface Client {
   selected?: boolean;
 }
 
-export interface FetchClientResponse {
+interface DataFetchClient {
   clients: Client[];
   totalClients: number;
   totalPages: number;
   currentPage: number;
   limit: number;
 }
-const clients = async (data: BodyRequest): Promise<FetchClientResponse> => {
-  try {
-    const response = await api.get(`/client/`, { params: data });
-    return response.data;
-  } catch (error) {
-    if (error instanceof AxiosError) {
-      throw error.response?.data;
-    } else {
-      throw error;
-    }
-  }
-};
 
-export function useFetchClient(data: BodyRequest) {
-  const query = useQuery({
-    enabled: !!data.page && !!data.limit && !!data.userID,
-    queryFn: () => clients(data),
-    queryKey: ["fetchClient"],
+export function useFetchClient(params: PropsFetchClient) {
+  const {
+    data,
+    error,
+    isError,
+    isSuccess,
+    isLoading: isPending,
+    execute: fetchClients,
+  } = useAsync<DataFetchClient, PropsFetchClient>((params) => {
+    const { page, limit, userID, selected } = params;
+    const query = new URLSearchParams({
+      page: String(page),
+      limit: String(limit),
+      userID: String(userID),
+      ...(selected !== undefined ? { selected: String(selected) } : {}),
+    }).toString();
+    return api.get<DataFetchClient>(`/client?${query}`);
   });
-  return query;
+
+  React.useEffect(() => {
+    if (params) {
+      fetchClients(params);
+    }
+  }, [params, fetchClients]);
+
+  return {
+    refetch: fetchClients,
+    data,
+    error,
+    isPending,
+    isError,
+    isSuccess,
+  };
 }

@@ -1,27 +1,28 @@
-import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { AxiosError } from "axios";
-import { api } from "../../services/api";
+import { api } from "../../services/customFetch";
+import { useAsync } from "../useAsync";
+import { Client } from "./useFetchClient";
 
-const removeClient = async (id: number) => {
-  try {
-    const response = await api.delete("/client/" + id);
-    return response.data;
-  } catch (error) {
-    if (error instanceof AxiosError) {
-      throw error.response?.data;
-    } else {
-      throw error;
-    }
-  }
-};
+export interface DataRemoveClient {
+  message: string;
+  client: Client;
+}
 
 export function useRemoveClient() {
-  const queryClient = useQueryClient();
-  const mutate = useMutation({
-    mutationFn: removeClient,
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["fetchClient"] });
-    },
-  });
-  return mutate;
+  const {
+    data,
+    error,
+    isError,
+    isSuccess,
+    isLoading: isPending,
+    execute: mutate,
+  } = useAsync<DataRemoveClient, number>((id) => api.del("/client/" + id));
+
+  return {
+    data,
+    error,
+    isError,
+    isSuccess,
+    isPending,
+    mutate,
+  };
 }
