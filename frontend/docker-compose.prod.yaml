@@ -3,7 +3,7 @@ services:
     build:
       context: .
       dockerfile: Dockerfile.prod
+      args:
+        VITE_API_HOST: ${VITE_API_HOST}
     ports:
       - 5173:5173
-    volumes:
-      - .:/home/node/app

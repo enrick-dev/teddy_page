@@ -5,9 +5,6 @@ services:
       dockerfile: Dockerfile.prod
     ports:
       - '3000:3000'
-    volumes:
-      - .:/home/node/app
-      - /home/node/app/node_modules
 
   db:
     image: postgres
@@ -25,3 +22,26 @@ services:
       - .env
     ports:
       - '5050:80'
+
+  prometheus:
+    image: prom/prometheus:latest
+    ports:
+      - '9090:9090'
+    volumes:
+      - ./prometheus.yml:/etc/prometheus/prometheus.yml
+    command:
+      - '--config.file=/etc/prometheus/prometheus.yml'
+
+  grafana:
+    image: grafana/grafana:latest
+    depends_on:
+      - prometheus
+    ports:
+      - '3005:3000'
+    volumes:
+      - grafana_storage:/var/lib/grafana
+      - ./grafana/provisioning/datasources:/etc/grafana/provisioning/datasources
+      - ./grafana/provisioning/dashboards:/etc/grafana/provisioning/dashboards
+
+volumes:
+  grafana_storage:
