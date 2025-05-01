@@ -22,7 +22,7 @@ const ComponentAdd: React.FC<PropsComponent> = ({ onSuccessChange }) => {
   const [salary, setSalary] = React.useState<number>(0);
   const [companyValue, setCompanyValue] = React.useState<number>(0);
 
-  const editClient = () => {
+  const addClient = () => {
     mutate(
       {
         name,
@@ -35,7 +35,7 @@ const ComponentAdd: React.FC<PropsComponent> = ({ onSuccessChange }) => {
   };
 
   return (
-    <div className="min-w-[400px]">
+    <div className="max-sm:w-full sm:min-w-[400px]">
       <div className="flex flex-col gap-2.5">
         <Input
           value={name}
@@ -55,7 +55,7 @@ const ComponentAdd: React.FC<PropsComponent> = ({ onSuccessChange }) => {
       </div>
       <Button
         className="mt-3.5 w-full py-3 text-[14px] font-bold"
-        onClick={editClient}
+        onClick={addClient}
         isLoading={isPending}
       >
         Criar cliente
@@ -92,7 +92,7 @@ const ComponentEdit: React.FC<PropsComponent> = ({
   };
 
   return (
-    <div className="min-w-[400px]">
+    <div className="max-sm:w-full sm:min-w-[400px]">
       <div className="flex flex-col gap-2.5">
         <Input
           value={name}
@@ -190,7 +190,7 @@ const DialogClient: React.FC<PropsDialogClient> = ({
 
       <Dialog.Portal>
         <Dialog.Overlay className="data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 fixed inset-0 z-50 bg-black/80" />
-        <Dialog.Content className="bg-background data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 data-[state=closed]:slide-out-to-left-1/2 data-[state=closed]:slide-out-to-top-[48%] data-[state=open]:slide-in-from-left-1/2 data-[state=open]:slide-in-from-top-[48%] fixed top-[50%] left-[50%] z-50 grid w-fit translate-x-[-50%] translate-y-[-50%] gap-4 border p-6 shadow-lg duration-200 sm:rounded-sm">
+        <Dialog.Content className="bg-background data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 data-[state=closed]:slide-out-to-left-1/2 data-[state=closed]:slide-out-to-top-[48%] data-[state=open]:slide-in-from-left-1/2 data-[state=open]:slide-in-from-top-[48%] fixed top-[50%] left-[50%] z-50 grid w-fit translate-x-[-50%] translate-y-[-50%] gap-4 border p-6 shadow-lg duration-200 max-sm:w-[90vw] sm:rounded-sm">
           <div className="flex flex-col gap-2">
             <h4 className="text-[16px] font-bold">{FormTitle}</h4>
             <FormComponent

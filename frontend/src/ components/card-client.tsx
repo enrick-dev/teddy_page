@@ -8,7 +8,7 @@ import DialogClient from "./dialog-client";
 
 const CardClientRoot: React.FC<PropsWithChildren> = ({ children }) => {
   return (
-    <div className="bg-background h-fit w-full max-w-[23.4%] rounded-sm p-4 text-center shadow">
+    <div className="bg-background h-fit w-full max-w-[23.4%] rounded-sm p-4 text-center shadow max-lg:max-w-[22.4%] max-md:max-w-full">
       {children}
     </div>
   );

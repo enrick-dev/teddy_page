@@ -4,7 +4,7 @@ import { useAuth } from "../../context/auth";
 const NavItems = () => {
   const { signOut } = useAuth();
   return (
-    <div>
+    <div className="max-sm:hidden">
       <ul className="flex items-center gap-8 font-light">
         <li>
           <NavLink

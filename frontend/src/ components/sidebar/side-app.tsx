@@ -1,11 +1,13 @@
-import { Menu } from "lucide-react";
+import { LogOut, Menu } from "lucide-react";
 import { AnimatePresence, motion } from "motion/react";
 import React, { PropsWithChildren } from "react";
 import { NavLink } from "react-router-dom";
 import IconHome from "../../assets/IconHome";
 import IconPeople from "../../assets/IconPeople";
 import IconWindow from "../../assets/IconWindow";
+import { useAuth } from "../../context/auth";
 import { cn } from "../../utils/cn";
+import { Button } from "../button";
 
 const links = [
   {
@@ -139,12 +141,27 @@ const Body = () => {
   );
 };
 
+const Footer = () => {
+  const { signOut } = useAuth();
+
+  return (
+    <div className="bg-background w-full flex-initial px-2 pb-2">
+      <Button onClick={signOut} className="flex w-full gap-2">
+        <span>Sair</span> <LogOut size={20} />
+      </Button>
+    </div>
+  );
+};
+
 interface PropsTrigger {
   onClick: VoidFunction;
 }
 
 const Trigger: React.FC<PropsTrigger> = ({ onClick }) => (
-  <div className="absolute top-8 left-11 cursor-pointer p-1" onClick={onClick}>
+  <div
+    className="absolute top-5 right-5 w-fit cursor-pointer p-1 sm:top-8 sm:left-11"
+    onClick={onClick}
+  >
     <Menu className="size-6.5" />
   </div>
 );
@@ -161,6 +178,7 @@ const Sidebar = () => {
       <SideRoot open={open}>
         <Header />
         <Body />
+        <Footer />
       </SideRoot>
       <Overlay open={open} onClick={() => handleSide(false)} />
     </>

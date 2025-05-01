@@ -12,8 +12,10 @@ interface PropsNav {
 }
 const Nav: React.FC<PropsNav> = ({ limit, setLimit }) => {
   return (
-    <div className="flex flex-initial justify-between gap-6 pb-3 text-[18px] font-light">
-      <p className="text-[22px] font-bold">Clientes selecionados:</p>
+    <div className="flex flex-initial justify-between gap-6 pb-3 text-[18px] font-light max-sm:flex-col max-sm:gap-2 max-sm:text-sm">
+      <p className="text-[22px] font-bold max-sm:text-sm">
+        Clientes selecionados:
+      </p>
 
       <div className="flex gap-2">
         <p>Clientes por página:</p>
@@ -39,7 +41,7 @@ interface PropsBody {
 
 const Body: React.FC<PropsBody> = ({ clients, refetchClients }) => {
   return (
-    <div className="flex max-h-[600px] flex-1 overflow-y-scroll">
+    <div className="flex max-h-[600px] flex-1 overflow-y-scroll max-sm:max-h-[500px]">
       <div className="flex h-fit w-full flex-wrap items-start justify-center gap-5">
         {clients.map((client) => (
           <CardClient.Root key={client.id}>
@@ -116,7 +118,7 @@ const ClientSelected = () => {
   });
 
   return (
-    <div className="flex h-full flex-col px-[120px] pt-[30px]">
+    <div className="flex h-full flex-col px-[120px] pt-[30px] max-lg:px-4">
       <Nav limit={limit} setLimit={setLimit} />
       <Body clients={data?.clients || []} refetchClients={refetch} />
 

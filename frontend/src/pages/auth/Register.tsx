@@ -34,8 +34,8 @@ const Register = () => {
   }, [token, navigate]);
 
   return (
-    <div className="bg-muted flex h-dvh w-dvw flex-col items-center justify-center">
-      <div className="mb-8 flex items-center justify-center gap-2">
+    <div className="bg-muted flex h-dvh w-dvw flex-col items-center justify-center px-4">
+      <div className="mb-8 flex items-center justify-center gap-2 max-sm:mb-4">
         <img src="./logo.png" className="w-36" />
       </div>
 

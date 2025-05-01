@@ -4,7 +4,7 @@ const NavUser = () => {
   const { name, username } = useAuth();
 
   return (
-    <div className="text-right">
+    <div className="text-right max-sm:hidden">
       <div>
         Olá, <span className="font-bold">{name}</span>
       </div>
