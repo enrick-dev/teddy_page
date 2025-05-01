@@ -40,21 +40,25 @@ const ComponentAdd: React.FC<PropsComponent> = ({ onSuccessChange }) => {
         <Input
           value={name}
           onChange={(e) => setName(e.target.value)}
+          name="clientName"
           placeholder="Digite o nome:"
         />
         <Input
           value={salary.toCurrency()}
           onChange={(e) => setSalary(e.target.value.currencyToNumber())}
+          name="clientSalary"
           placeholder="Digite o salário:"
         />
         <Input
           value={companyValue.toCurrency()}
           onChange={(e) => setCompanyValue(e.target.value.currencyToNumber())}
+          name="clientCompanyValue"
           placeholder="Digite o valor da empresa:"
         />
       </div>
       <Button
         className="mt-3.5 w-full py-3 text-[14px] font-bold"
+        name="btnAddClient"
         onClick={addClient}
         isLoading={isPending}
       >
@@ -97,21 +101,25 @@ const ComponentEdit: React.FC<PropsComponent> = ({
         <Input
           value={name}
           onChange={(e) => setName(e.target.value)}
+          name="clientName"
           placeholder="Digite o nome:"
         />
         <Input
           value={salary.toCurrency()}
           onChange={(e) => setSalary(e.target.value.currencyToNumber())}
+          name="clientSalary"
           placeholder="Digite o salário:"
         />
         <Input
           value={companyValue.toCurrency()}
           onChange={(e) => setCompanyValue(e.target.value.currencyToNumber())}
+          name="clientCompanyValue"
           placeholder="Digite o valor da empresa:"
         />
       </div>
       <Button
         className="mt-3.5 w-full py-3 text-[14px] font-bold"
+        name="btnEditClient"
         onClick={editClient}
         isLoading={isPending}
       >
@@ -143,6 +151,7 @@ const ComponentRemove: React.FC<PropsComponent> = ({
       </p>
       <Button
         className="mt-3.5 w-full py-3 text-[14px] font-bold"
+        name="btnRemoveClient"
         onClick={removeClient}
         isLoading={isPending}
       >
@@ -184,7 +193,7 @@ const DialogClient: React.FC<PropsDialogClient> = ({
 
   return (
     <Dialog.Root open={open} onOpenChange={setOpen}>
-      <Dialog.Trigger asChild>
+      <Dialog.Trigger asChild aria-label={variant}>
         <div className="cursor-pointer">{children}</div>
       </Dialog.Trigger>
 

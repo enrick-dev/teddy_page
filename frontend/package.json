@@ -11,6 +11,8 @@
     "docker:prod": "docker compose -f docker-compose.prod.yaml up --build",
     "lint": "eslint .",
     "test": "vitest",
+    "e2e": "cypress open",
+    "e2e:run": "cypress run",
     "preview": "vite preview",
     "serve": "serve -s dist -l 5173"
   },
@@ -43,6 +45,7 @@
     "@types/react-dom": "^19.0.3",
     "@vitejs/plugin-react": "^4.3.4",
     "autoprefixer": "^10.4.20",
+    "cypress": "^14.3.2",
     "eslint": "^9.19.0",
     "eslint-plugin-react-hooks": "^5.0.0",
     "eslint-plugin-react-refresh": "^0.4.18",

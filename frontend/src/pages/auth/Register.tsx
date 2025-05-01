@@ -57,6 +57,7 @@ const Register = () => {
               </label>
               <Input
                 ref={inputFirstName}
+                name="firstName"
                 type="text"
                 className="text-sm font-light"
               />
@@ -70,7 +71,7 @@ const Register = () => {
               </label>
               <Input
                 ref={inputLastName}
-                id="firstName"
+                name="lastName"
                 type="text"
                 className="text-sm font-light"
               />
@@ -87,7 +88,7 @@ const Register = () => {
             </div>
             <Input
               ref={inputUsername}
-              id="username"
+              name="username"
               placeholder="jhondoe"
               type="text"
               className="text-sm font-light"
@@ -104,7 +105,7 @@ const Register = () => {
             </div>
             <Input
               ref={inputPassword}
-              id="password"
+              name="password"
               type="password"
               className="text-sm font-light"
             />
