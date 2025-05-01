@@ -43,6 +43,8 @@ services:
       - '3005:3000'
     volumes:
       - grafana_storage:/var/lib/grafana
+      - ./grafana/provisioning/datasources:/etc/grafana/provisioning/datasources
+      - ./grafana/provisioning/dashboards:/etc/grafana/provisioning/dashboards
 
 volumes:
   grafana_storage:
