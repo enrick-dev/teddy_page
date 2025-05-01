@@ -58,6 +58,9 @@ docker compose -f docker-compose.prod.yaml #Para ambiente de produção
 - `prod`: Inicia o frontend em modo de produção.
 - `build`: Constrói o backend.
 - `serve`: Serve o frontend construído ("roda" a build).
+- `test:frontend`: Executa os testes automatizados.
+- `e2e:frontend`: Configura o ambiente necessário para os testes end-to-end.
+- `e2e:run:frontend`: Executa a suíte de testes end-to-end.
 
 ## Acessando os Serviços
 - `Frontend`: localhost:5173.

@@ -16,6 +16,8 @@
     "dev:frontend": "npm run dev -w frontend",
     "prod:backend": "npm run start:prod -w backend",
     "prod:frontend": "npm run prod -w frontend",
-    "test:frontend": "npm run test -w frontend"
+    "test:frontend": "npm run test -w frontend",
+    "e2e:frontend": "npm run e2e -w frontend",
+    "e2e:run:frontend": "npm run e2e:run -w frontend"
   }
 }

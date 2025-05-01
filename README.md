@@ -65,7 +65,10 @@ npm run docker:start:prod
 - `dev:frontend`: Inicia o frontend em modo de desenvolvimento.
 - `prod:backend`: Inicia o backend em modo de produção.
 - `prod:frontend`: Constrói e serve o frontend em modo de produção.
-- `test:frontend`: Executa os testes automatizados do Frontend
+- `test:frontend`: Executa os testes automatizados do Frontend.
+- `e2e:frontend`: Configura o ambiente necessário para os testes end-to-end do Frontend.
+- `e2e:run:frontend`: Executa a suíte de testes end-to-end do Frontend.
+
 
 ## Acessando os Serviços
 - `Backend`: localhost:3000.
