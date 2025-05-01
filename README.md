@@ -1,6 +1,6 @@
 # Teddy Monorepo
 
-Este é o repositório monorepo para o projeto Teddy para um processo seletivo na Teddy Open Finance, que contém tanto o backend quanto o frontend. Aqui irei demonstrar o passo a passo para configurar e rodar o projeto em ambientes de desenvolvimento e produção.
+Este é o repositório monorepo para o projeto Teddy, contém o **backend**, **frontend**, **Prometheus** e **Grafana**. Aqui irei demonstrar o passo a passo para configurar e rodar o projeto em ambientes de desenvolvimento e produção.
 
 ## Pré-requisitos
 
@@ -70,8 +70,13 @@ npm run docker:start:prod
 - `e2e:run:frontend`: Executa a suíte de testes end-to-end do Frontend.
 
 
-## Acessando os Serviços
-- `Backend`: localhost:3000.
-- `Frontend`: localhost:5173.
-- `Grafana`: localhost:3005.
-- `Prometheus`: localhost:9090.
+## Acessando os Serviços localmente
+- `Backend`: localhost:3000
+- `Frontend`: localhost:5173
+- `Grafana`: localhost:3005
+- `Prometheus`: localhost:9090
+
+## Acessando os Serviços publicos
+
+- `Backend`: https://teddy-backend-bxsi.onrender.com/
+- `Frontend`: https://teddy-page-frontend.vercel.app/
