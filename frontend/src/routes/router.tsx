@@ -2,22 +2,24 @@ import { createBrowserRouter } from "react-router-dom";
 import { AuthProvider } from "../context/auth";
 import MainLayout from "../layout/MainLayout";
 import Login from "../pages/auth/Login";
+import Register from "../pages/auth/Register";
 import ClientList from "../pages/client-list/ClientList";
 import ClientSelected from "../pages/client-selected/ClientSelected";
 
 const router = createBrowserRouter([
   {
-    Component: AuthProvider,
+    element: <AuthProvider />,
     children: [
-      {
-        path: "*",
-      },
       {
         path: "/entrar",
         element: <Login />,
       },
       {
-        Component: MainLayout,
+        path: "/cadastro",
+        element: <Register />,
+      },
+      {
+        element: <MainLayout />,
         children: [
           {
             path: "/clientes",

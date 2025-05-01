@@ -4,14 +4,18 @@ import { Button } from "../../ components/button";
 import { Input } from "../../ components/input";
 import { useAuth } from "../../context/auth";
 
-const Login = () => {
-  const { sign, isError, error, isPending, token } = useAuth();
+const Register = () => {
+  const { register, isError, error, isPending, token } = useAuth();
 
+  const inputFirstName = React.useRef<HTMLInputElement>(null);
+  const inputLastName = React.useRef<HTMLInputElement>(null);
   const inputUsername = React.useRef<HTMLInputElement>(null);
   const inputPassword = React.useRef<HTMLInputElement>(null);
 
   const login = () => {
-    sign({
+    const name = `${inputFirstName.current?.value} ${inputLastName.current?.value || ""}`;
+    register({
+      name,
       username: inputUsername.current?.value ?? "",
       password: inputPassword.current?.value ?? "",
     });
@@ -37,12 +41,41 @@ const Login = () => {
 
       <div className="bg-background w-full max-w-[500px] space-y-4 rounded-xl border border-slate-200 p-5 shadow shadow-lg">
         <div className="space-y-1">
-          <div className="text-center text-2xl font-bold">Entrar</div>
+          <div className="text-center text-2xl font-bold">Criar conta</div>
           <div className="text-muted-foreground text-center text-sm">
-            Insira suas credenciais para acessar o sistema
+            Preencha seus dados para criar sua conta
           </div>
         </div>
         <div className="space-y-4">
+          <div className="grid grid-cols-2 gap-4">
+            <div className="space-y-2">
+              <label
+                htmlFor="firstName"
+                className="text-sm leading-none font-medium peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+              >
+                Nome
+              </label>
+              <Input
+                ref={inputFirstName}
+                type="text"
+                className="text-sm font-light"
+              />
+            </div>
+            <div className="space-y-2">
+              <label
+                htmlFor="lastName"
+                className="text-sm leading-none font-medium peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+              >
+                Sobrenome
+              </label>
+              <Input
+                ref={inputLastName}
+                id="firstName"
+                type="text"
+                className="text-sm font-light"
+              />
+            </div>
+          </div>
           <div className="space-y-1">
             <div>
               <label
@@ -54,7 +87,7 @@ const Login = () => {
             </div>
             <Input
               ref={inputUsername}
-              name="username"
+              id="username"
               placeholder="jhondoe"
               type="text"
               className="text-sm font-light"
@@ -71,9 +104,8 @@ const Login = () => {
             </div>
             <Input
               ref={inputPassword}
-              name="password"
+              id="password"
               type="password"
-              placeholder="*****"
               className="text-sm font-light"
             />
           </div>
@@ -88,17 +120,17 @@ const Login = () => {
             onClick={login}
             isLoading={isPending}
           >
-            Entrar
+            Criar conta
           </Button>
         </div>
         <div className="flex flex-col space-y-4">
           <div className="text-center text-sm">
-            Não tem uma conta?{" "}
+            Já tem uma conta?{" "}
             <Link
-              to="/cadastro"
+              to="/entrar"
               className="text-primary hover:text-primary/90 font-medium"
             >
-              Crie aqui
+              Entrar
             </Link>
           </div>
         </div>
@@ -107,4 +139,4 @@ const Login = () => {
   );
 };
 
-export default Login;
+export default Register;

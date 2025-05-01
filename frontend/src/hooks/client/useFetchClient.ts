@@ -54,11 +54,12 @@ export function useFetchClient(params: PropsFetchClient) {
     execute: fetchClients,
   } = useAsync<DataFetchClient, PropsFetchClient>(fetchClientFn);
 
-  const { page, limit, userID, selected } = params;
-
+  const { limit, page, userID, selected } = params;
   React.useEffect(() => {
-    fetchClients({ page, limit, userID, selected });
-  }, [page, limit, userID, selected, fetchClients]);
+    if (!userID) return;
+    fetchClients(params);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [limit, page, userID, selected]);
 
   return {
     refetch: () => fetchClients(params),

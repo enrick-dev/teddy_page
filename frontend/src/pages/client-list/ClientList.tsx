@@ -102,14 +102,6 @@ const ClientList = () => {
   const { userID } = useAuth();
   const { data, refetch } = useFetchClient({ page, limit, userID });
 
-  const stableRefetch = React.useCallback(() => {
-    refetch();
-  }, [refetch]);
-
-  React.useEffect(() => {
-    stableRefetch();
-  }, [page, limit, stableRefetch]);
-
   return (
     <div className="flex h-full flex-col px-[120px] pt-[30px]">
       <Nav
