@@ -48,6 +48,7 @@ JWT_SECRET_TOKEN=123456
 ### Ambiente de Desenvolvimento
 
 Para rodar o backend em ambiente de desenvolvimento:
+*Irá executar somente o backend NestJS*
 
 ```bash
 npm run start:dev
@@ -56,6 +57,7 @@ npm run start:dev
 ### Usando Docker
 
 Para rodar o backend usando Docker:
+*Irá executar o backend NestJS, PostgreSQL, PGadmin, Prometheus e Grafana*
 
 ```bash
 docker compose -f docker-compose.dev.yaml #Para ambiente de desenvolvimento
