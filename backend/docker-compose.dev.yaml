@@ -25,3 +25,24 @@ services:
       - .env
     ports:
       - '5050:80'
+
+  prometheus:
+    image: prom/prometheus:latest
+    ports:
+      - '9090:9090'
+    volumes:
+      - ./prometheus.yml:/etc/prometheus/prometheus.yml
+    command:
+      - '--config.file=/etc/prometheus/prometheus.yml'
+
+  grafana:
+    image: grafana/grafana:latest
+    depends_on:
+      - prometheus
+    ports:
+      - '3005:3000'
+    volumes:
+      - grafana_storage:/var/lib/grafana
+
+volumes:
+  grafana_storage:

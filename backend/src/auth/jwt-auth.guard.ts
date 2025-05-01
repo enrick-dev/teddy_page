@@ -25,6 +25,11 @@ export class JwtAuthGuard extends AuthGuard('jwt') {
     }
 
     const request = context.switchToHttp().getRequest();
+
+    if (request.path === '/metrics') {
+      return true;
+    }
+
     const token = ExtractJwt.fromAuthHeaderAsBearerToken()(request);
 
     if (!token) {
