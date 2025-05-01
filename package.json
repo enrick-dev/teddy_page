@@ -15,6 +15,7 @@
     "dev:backend": "npm run start:dev -w backend",
     "dev:frontend": "npm run dev -w frontend",
     "prod:backend": "npm run start:prod -w backend",
-    "prod:frontend": "npm run prod -w frontend"
+    "prod:frontend": "npm run prod -w frontend",
+    "test:frontend": "npm run test -w frontend"
   }
 }

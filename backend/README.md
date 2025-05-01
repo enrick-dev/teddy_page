@@ -71,3 +71,7 @@ docker compose -f docker-compose.prod.yaml #Para ambiente de produção
 - `start:prod`: Inicia o backend em modo de produção.
 - `build`: Constrói o backend.
 
+## Acessando os Serviços
+- `Backend`: localhost:3000.
+- `Grafana`: localhost:3005.
+- `Prometheus`: localhost:9090.

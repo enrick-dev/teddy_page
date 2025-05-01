@@ -52,10 +52,12 @@ docker compose -f docker-compose.prod.yaml #Para ambiente de produção
 ## Scripts Disponíveis
 
 - `docker:dev`: Inicia o frontend em modo de desenvolvimento usando Docker.
+- `test`: Executa os testes automatizados
 - `docker:prod`: Inicia o frontend em modo de produção usando Docker.
 - `dev`: Inicia o frontend em modo de desenvolvimento.
 - `prod`: Inicia o frontend em modo de produção.
 - `build`: Constrói o backend.
 - `serve`: Serve o frontend construído ("roda" a build).
 
-
+## Acessando os Serviços
+- `Frontend`: localhost:5173.

@@ -65,4 +65,10 @@ npm run docker:start:prod
 - `dev:frontend`: Inicia o frontend em modo de desenvolvimento.
 - `prod:backend`: Inicia o backend em modo de produção.
 - `prod:frontend`: Constrói e serve o frontend em modo de produção.
+- `test:frontend`: Executa os testes automatizados do Frontend
 
+## Acessando os Serviços
+- `Backend`: localhost:3000.
+- `Frontend`: localhost:5173.
+- `Grafana`: localhost:3005.
+- `Prometheus`: localhost:9090.
